@@ -1,12 +1,22 @@
 <div class="card">
+  <!-- <div class="flex justify-center items-center mb-6 gap-2">
+    <p-toggleswitch [(ngModel)]="metaKey" inputId="input-metakey" />
+    <label for="input-metakey">MetaKey</label>
+  </div> -->
+  <p-contextMenu #cm [model]="opcionesPropietarios"></p-contextMenu>
   <p-table
     #dt2
+    stripedRows
     [value]="listadoPropietarios"
     dataKey="folio_propietario"
     [tableStyle]="{'min-width': '50rem'}"
-
+    [(contextMenuSelection)]="propietarioSeleccionado"
+    [metaKeySelection]="metaKey"
+    [contextMenu]="cm"
     [paginator]="true"
     [globalFilterFields]="['folio_propietario ', 'nombre_propietario']"
+    selectionMode="single"
+    [(selection)]="propietarioSeleccionado"
     [rows]="5"
     [rowsPerPageOptions]="[5, 10, 20]">
 
@@ -21,17 +31,34 @@
       </div>
     </ng-template> -->
 
+    <ng-template #caption>
+      <div class="d-flex justify-content-center">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+              <i class="pi pi-search"></i>
+          </p-inputicon>
+          <!-- <input pInputText type="text" (input)="dt2.filterGlobal(onGlobalFilter(dt2, $event), 'contains')" placeholder="Search keyword"/> -->
+          <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <div>
+
+    </div>
     <ng-template #header>
-      <tr>
+
+
+      <tr [pSelectableRow]="propietarios">
           <th>Folio Propietario</th>
           <th>Nombre Propietario</th>
-          <th colspan="3">
+          <!-- <th colspan="3">
                 <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
-          </th>
+          </th> -->
       </tr>
     </ng-template>
     <ng-template #body let-prop>
-      <tr>
+      <tr [pContextMenuRow]="prop">
         <td>{{ prop.folio_propietario }}</td>
         <td>{{ prop.nombre_propietario }}</td>
       </tr>
