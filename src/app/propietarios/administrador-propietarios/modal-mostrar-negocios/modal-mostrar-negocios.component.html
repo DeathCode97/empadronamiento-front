@@ -1,0 +1,30 @@
+<div class="card" >
+  <p-table *ngIf="boolTabla" [value]="listadoNegocios" [tableStyle]="{ 'min-width': '50rem' }"  [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+    <ng-template #header>
+      <tr>
+          <th class="center-content">Nombre de negocio</th>
+          <th class="center-content">Giro Comercial</th>
+          <th class="center-content">Direccion</th>
+          <th class="center-content">Es ambulante</th>
+          <th class="center-content">Fecha de Registro</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-negocio>
+      <tr>
+          <td class="center-content">{{ negocio.nombre_negocio }}</td>
+          <td class="center-content">{{ negocio.giro_comercial }}</td>
+          <td class="center-content">{{ negocio.direccion }}</td>
+          <!-- <td class="center-content">{{ negocio.es_ambulante == true ? 'Si' : 'No' }}</td> -->
+           <td class="center-content">
+              <p-tag [value]="negocio.es_ambulante == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_ambulante)" />
+           </td>
+          <td class="center-content">{{ negocio.fecha_registro }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div *ngIf="boolMensaje" style="display: flex; justify-content: center; text-align: center; margin-top: 10px;">
+    <h1 class="center-content" >
+      <p-message class="centrado" size="large" icon="pi pi-exclamation-circle">SIN NEGOCIOS ASOCIADOS</p-message>
+    </h1>
+  </div>
+</div >

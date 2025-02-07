@@ -3,3 +3,13 @@
   margin-right: auto;
   display: table;
 } */
+
+.highlight-row:hover {
+  background-color: #a39d9d; /* Puedes cambiar el color de fondo según tu preferencia */
+  cursor: pointer; /* Cambia el cursor para indicar interactividad */
+}
+
+.center-content {
+  text-align: center;
+  vertical-align: middle; /* Opcional, para centrar verticalmente */
+}
