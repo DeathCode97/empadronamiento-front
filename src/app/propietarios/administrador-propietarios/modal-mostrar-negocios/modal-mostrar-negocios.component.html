@@ -3,7 +3,7 @@
     <ng-template #header>
       <tr>
           <th class="center-content">Nombre de negocio</th>
-          <th class="center-content">Giro Comercial</th>
+          <th class="center-content">Actividad Comercial</th>
           <th class="center-content">Direccion</th>
           <th class="center-content">Es ambulante</th>
           <th class="center-content">Fecha de Registro</th>
@@ -12,7 +12,7 @@
     <ng-template #body let-negocio>
       <tr>
           <td class="center-content">{{ negocio.nombre_negocio }}</td>
-          <td class="center-content">{{ negocio.giro_comercial }}</td>
+          <td class="center-content">{{ negocio.nombre_actividad }}</td>
           <td class="center-content">{{ negocio.direccion }}</td>
           <!-- <td class="center-content">{{ negocio.es_ambulante == true ? 'Si' : 'No' }}</td> -->
            <td class="center-content">

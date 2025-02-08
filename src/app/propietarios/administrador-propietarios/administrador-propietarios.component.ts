@@ -114,7 +114,23 @@ export default class AdministradorPropietariosComponent {
       data:{
         // propietarioEdit: propietario
       }
-  });
+    });
+
+    this.modalEditarPropietarios.onClose.subscribe((response) => {
+      console.log(response);
+      if(response === undefined){
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }else{
+        console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con exito' });
+          this.obtenerPropietarios()
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
+      }
+    })
+
   }
 
   modalEditarPropietario(propietario: any){
@@ -170,34 +186,33 @@ export default class AdministradorPropietariosComponent {
     console.log("mensaje");
     this.confirmationService.confirm({
       message: `Estas seguro de querer eliminar a: ${propietario.nombre_propietario}`,
-            header: 'Confirmación',
-            closable: true,
-            closeOnEscape: true,
-            icon: 'pi pi-exclamation-triangle',
-            rejectButtonProps: {
-                label: 'Cancel',
-                severity: 'secondary',
-                outlined: true,
-            },
-            acceptButtonProps: {
-                label: 'Eliminar',
-            },
-            accept: () => {
-              this.requestService.postService("eliminarPropietario", {idPropietario: propietario.folio_propietario}).subscribe({
-                next: (response) => {
-                  if(response.status == "success"){
-                    this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con exito' });
-                    this.obtenerPropietarios()
-                  }else{
-                    this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
-                  }
-
-                }
-              })
-            },
-            reject: () => {
-              this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      header: 'Confirmación',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+          label: 'Cancel',
+          severity: 'secondary',
+          outlined: true,
+      },
+      acceptButtonProps: {
+          label: 'Eliminar',
+      },
+      accept: () => {
+        this.requestService.postService("eliminarPropietario", {idPropietario: propietario.folio_propietario}).subscribe({
+          next: (response) => {
+            if(response.status == "success"){
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con exito' });
+              this.obtenerPropietarios()
+            }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
             }
+          }
+        })
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }
     })
   }
 

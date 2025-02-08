@@ -32,10 +32,15 @@ export default class ModalAgregarPropietarioComponent {
   ){}
 
   insertarPropietario(){
+    this.data = {
+      "nombre": this.nombrePropietario,
+      "numeroPropietario": this.numeroPropietario?.toString()
+    }
 
-    this.requestService.postService("insertarPropietario", {}).subscribe({
+    this.requestService.postService("insertarPropietarios", this.data).subscribe({
       next: (response) => {
-
+        console.log();
+        this.ref.close(response);
       }
     })
   }

@@ -1,1 +1,48 @@
-<p>administrador-negocios works!</p>
+<div class="card">
+  <p-contextMenu #cm [model]="opcionesNegocio" ></p-contextMenu>
+  <p-table #dt2
+  [value]="negocios"
+  dataKey="folio_negocio"
+  [tableStyle]="{'min-width': '50rem'}"
+  [globalFilterFields]="['nombre_negocio', 'giro_comercial', 'nombre_propietario']"
+  [paginator]="true"
+  [contextMenu]="cm"
+  [rows]="5"
+  [rowsPerPageOptions]="[5, 10, 20]">
+    <ng-template #caption>
+      <div class="d-flex justify-content-center">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+              <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
+          &nbsp;
+          <!-- <p-button icon="pi pi-plus" (onClick)="modalAgregarPropietario()" severity="success" pTooltip="Agregar nuevo propietario"/> -->
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr >
+          <th class="center-content">FOLIO NEGOCIO</th>
+          <th class="center-content">NOMBRE NEGOCIO</th>
+          <th class="center-content">GIRO COMERCIAL</th>
+          <th class="center-content">DIRECCION</th>
+          <th class="center-content">ES AMBULANTE</th>
+          <th class="center-content">PROPIETARIO</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-negocio>
+      <tr class="highlight-row"  [pContextMenuRow]="negocio">
+        <td class="center-content">{{ negocio.folio_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_giro }}</td>
+        <td class="center-content">{{ negocio.direccion }}</td>
+        <!-- <td class="center-content">{{ negocio.es_ambulante }}</td> -->
+         <td class="center-content">
+          <p-tag [value]="negocio.es_ambulante == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_ambulante)" />
+         </td>
+        <td class="center-content">{{ negocio.nombre_propietario }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
