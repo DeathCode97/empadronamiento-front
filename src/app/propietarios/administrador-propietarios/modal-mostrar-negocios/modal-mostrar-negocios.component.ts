@@ -41,8 +41,6 @@ export default class ModalMostrarNegociosComponent {
           this.boolMensaje = this.boolMensaje = true;
 
         }
-
-
       }
     })
   }

@@ -1,0 +1,82 @@
+<div class="card flex justify-center">
+  <p-accordion  value="0">
+       <p-accordion-panel value="0">
+           <p-accordion-header class="highlight-row">Informacion General</p-accordion-header>
+           <p-accordion-content>
+            <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <p-chip label="Folio Negocio: " /> &nbsp; <p-tag severity="info" value="{{folioNegocio}}"/>
+              </div>
+              <div>
+                <p-chip label="Nombre Negocio: " /> &nbsp; <p-tag severity="info" value="{{nombreNegocio}}"/>
+              </div>
+              <div>
+                <p-chip label="Direccion: "/> &nbsp; <p-tag severity="info" value="{{direccion}}"/>
+              </div>
+              <div *ngIf="numeroTelefonicoNegocio != null">
+                <p-chip label="Numero Telefonico: "/> &nbsp; <p-tag severity="info" value="{{numeroTelefonicoNegocio }}"/>
+              </div>
+              <div *ngIf="numeroTelefonicoNegocio === null">
+                <p-chip label="Numero Telefonico: "/> &nbsp; <p-tag severity="danger" value="{{numeroTelefonicoNegocio === null ? 'No asignado' : numeroTelefonicoNegocio}}"/>
+              </div>
+              <div>
+                <p-chip label="Actividad Económica: "/> &nbsp; <p-tag severity="info" value="{{actividadEconomica}}"/>
+              </div>
+              <div>
+                <p-chip label="Giro: "/> &nbsp; <p-tag severity="info" value="{{giro}}"/>
+              </div>
+              <div>
+                <p-chip label="Fecha Registro: "/> &nbsp; <p-tag severity="info" value="{{fechaRegistro}}"/>
+              </div>
+              <div>
+                <p-chip label="Nombre Propietario: "/> &nbsp; <p-tag severity="info" value="{{nombrePropietario}}"/>
+              </div>
+           </div>
+           <div class="card grid grid-cols-1 md:grid-cols-2 gap-4" style="margin-top: 20px; display: flex; justify-content: center; text-align: center;" >
+            <div *ngIf="numeroTelefonicoPropietario != null">
+              <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="info" value="{{numeroTelefonicoPropietario}}"/>
+            </div>
+            <div *ngIf="numeroTelefonicoPropietario === null">
+              <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="danger" value="{{numeroTelefonicoPropietario === null ? 'No asignado' : numeroTelefonicoPropietario}}"/>
+            </div>
+           </div>
+           </p-accordion-content>
+       </p-accordion-panel>
+
+       <p-accordion-panel value="1">
+            <p-accordion-header class="highlight-row" >Servicios</p-accordion-header>
+            <p-accordion-content>
+              <div class="table-container">
+                <p-table [value]="dataNegocio" >
+                  <ng-template #header>
+                      <tr>
+                          <th>Nombre Servicio</th>
+                          <th>Descripcion</th>
+                          <th>Frecuencia de pago</th>
+                          <!-- <th>Quantity</th> -->
+                      </tr>
+                  </ng-template>
+                  <ng-template #body let-data>
+                      <tr>
+                          <td>{{ data.nombre_servicio }}</td>
+                          <td>{{ data.descripcion_servicio }}</td>
+                          <td>{{ data.frecuencia_pago }}</td>
+                          <!-- <td>{{ product.quantity }}</td> -->
+                      </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+              <!-- contenido -->
+
+            </p-accordion-content>
+       </p-accordion-panel>
+
+       <p-accordion-panel value="2">
+           <p-accordion-header class="highlight-row">Estatus servicios</p-accordion-header>
+           <p-accordion-content>
+               <!-- contenido -->
+           </p-accordion-content>
+       </p-accordion-panel>
+   </p-accordion>
+</div>
+

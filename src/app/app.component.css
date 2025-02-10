@@ -15,3 +15,12 @@
 .content {
   margin-top: 50px; /* Ajusta este valor según la altura de tu p-menubar */
 }
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+p-table {
+  width: 100%;
+}

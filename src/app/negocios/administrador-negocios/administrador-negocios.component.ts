@@ -20,6 +20,9 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { Message } from 'primeng/message';
+import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
+import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
+import ModalEditarNegocioComponent from "./modal-editar-negocio/modal-editar-negocio.component"
 
 // Interfaces
 import { Negocio } from "../interfaces/Negocio"
@@ -55,9 +58,14 @@ import { Negocio } from "../interfaces/Negocio"
 export default class AdministradorNegociosComponent {
   negocios: Negocio[] = [];
   opcionesNegocio: MenuItem[] | undefined;
+  modalVerDetalles: DynamicDialogRef | undefined;
+  modalEditarNegocio: DynamicDialogRef | undefined;
+  modalAsignarServicios: DynamicDialogRef | undefined;
+  negocioSeleccionado: Negocio | undefined;
 
   constructor(
     private requestService: ConsumeapiService,
+    public dialogService: DialogService
   ){}
 
   ngOnInit(){
@@ -66,7 +74,7 @@ export default class AdministradorNegociosComponent {
       {
         label: "Ver detalles",
         icon: "pi pi-fw pi-eye",
-        command: () => console.log("")
+        command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
       },
       {
         label: "Editar negocio",
@@ -87,6 +95,20 @@ export default class AdministradorNegociosComponent {
     this.obtenerNegociosPropietarios()
   }
 
+  abrirModalVerDetalles(negocio: any){
+    this.modalVerDetalles = this.dialogService.open(ModalDetallesNegocioComponent, {
+      header: `Detalles del negocio: ${negocio.nombre_negocio}`,
+      width: '70%',
+      height: '500px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000,
+      data:{
+        infoNegocio: negocio
+      }
+    })
+  }
 
   obtenerNegociosPropietarios(){
     this.requestService.postService("obtenerNegociosConPropietarios", {}).subscribe({

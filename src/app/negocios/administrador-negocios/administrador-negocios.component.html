@@ -5,6 +5,7 @@
   dataKey="folio_negocio"
   [tableStyle]="{'min-width': '50rem'}"
   [globalFilterFields]="['nombre_negocio', 'giro_comercial', 'nombre_propietario']"
+  [(contextMenuSelection)]="negocioSeleccionado"
   [paginator]="true"
   [contextMenu]="cm"
   [rows]="5"
