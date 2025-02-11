@@ -31,14 +31,18 @@
               <div>
                 <p-chip label="Nombre Propietario: "/> &nbsp; <p-tag severity="info" value="{{nombrePropietario}}"/>
               </div>
-           </div>
-           <div class="card grid grid-cols-1 md:grid-cols-2 gap-4" style="margin-top: 20px; display: flex; justify-content: center; text-align: center;" >
-            <div *ngIf="numeroTelefonicoPropietario != null">
-              <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="info" value="{{numeroTelefonicoPropietario}}"/>
-            </div>
-            <div *ngIf="numeroTelefonicoPropietario === null">
-              <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="danger" value="{{numeroTelefonicoPropietario === null ? 'No asignado' : numeroTelefonicoPropietario}}"/>
-            </div>
+              <div *ngIf="numeroTelefonicoPropietario != null">
+                <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="info" value="{{numeroTelefonicoPropietario}}"/>
+              </div>
+              <div *ngIf="numeroTelefonicoPropietario === null">
+                <p-chip  label="Numero telefonico propietario: "/> &nbsp; <p-tag severity="danger" value="{{numeroTelefonicoPropietario === null ? 'No asignado' : numeroTelefonicoPropietario}}"/>
+              </div>
+              <div *ngIf="esAmbulante">
+                <p-chip label="Es ambulante: "/> &nbsp; <p-tag severity="secondary" value="{{esAmbulante === true ? 'Si' : 'No'}}"/>
+              </div>
+              <div *ngIf="!esAmbulante">
+                <p-chip label="Es ambulante: "/> &nbsp; <p-tag severity="warn" value="No"/>
+              </div>
            </div>
            </p-accordion-content>
        </p-accordion-panel>

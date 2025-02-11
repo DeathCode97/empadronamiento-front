@@ -22,4 +22,13 @@
   vertical-align: middle; /* Opcional, para centrar verticalmente */
 }
 
+.ui-dropdown-panel {
+  bottom: 100%;
+  top: auto;
+}
+
+.ui-dropdown-open .ui-dropdown-panel {
+  transform-origin: bottom;
+  transform: translateY(-8px); /* Puedes ajustar este valor según sea necesario */
+}
 

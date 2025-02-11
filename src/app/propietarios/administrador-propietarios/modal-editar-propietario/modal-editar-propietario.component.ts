@@ -12,10 +12,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ConsumeapiService } from '../../../services/consumeapi.service'
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-modal-editar-propietario',
-  imports: [InputGroupAddonModule, InputGroupModule, FormsModule, ButtonModule, InputNumber, InputTextModule, ToastModule],
+  imports: [InputGroupAddonModule, InputGroupModule, FormsModule, ButtonModule, InputNumber, InputTextModule, ToastModule, SelectModule],
   templateUrl: './modal-editar-propietario.component.html',
   styleUrl: './modal-editar-propietario.component.css',
   providers: [MessageService]

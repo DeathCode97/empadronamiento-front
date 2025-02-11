@@ -79,7 +79,7 @@ export default class AdministradorNegociosComponent {
       {
         label: "Editar negocio",
         icon: "pi pi-fw pi-file-edit",
-        command: () => console.log("")
+        command: () => this.abrirModalEditarNegocio(this.negocioSeleccionado)
       },{
         label: "Asignar servicios",
         icon: "pi pi-fw pi-plus-circle",
@@ -98,6 +98,21 @@ export default class AdministradorNegociosComponent {
   abrirModalVerDetalles(negocio: any){
     this.modalVerDetalles = this.dialogService.open(ModalDetallesNegocioComponent, {
       header: `Detalles del negocio: ${negocio.nombre_negocio}`,
+      width: '70%',
+      height: '500px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000,
+      data:{
+        infoNegocio: negocio
+      }
+    })
+  }
+
+  abrirModalEditarNegocio(negocio: any){
+    this.modalEditarNegocio = this.dialogService.open(ModalEditarNegocioComponent, {
+      header: `Editar Negocio: ${negocio.nombre_negocio}`,
       width: '70%',
       height: '500px',
       closable: true,

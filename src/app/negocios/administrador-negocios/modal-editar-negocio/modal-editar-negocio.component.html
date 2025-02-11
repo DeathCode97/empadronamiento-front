@@ -1,1 +1,68 @@
-<p>modal-editar-negocio works!</p>
+<div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Nombre Negocio</label>
+      <input type="text" pInputText  [(ngModel)]="nombreNegocio" [style]="{ 'width' : '400px' }" class="font-bold"/>
+    <small id="username-help">Ingrese el nombre correcto a editar!</small>
+  </div>
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Dirección Negocio</label>
+      <input type="text" pInputText  [(ngModel)]="direccion" [style]="{ 'width' : '400px' }" class="font-bold"/>
+    <small id="username-help">Ingrese direccion!</small>
+  </div>
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Numero Telefónico</label>
+    <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+    <p-input-number [useGrouping]="false"
+                    [maxFractionDigits]="0"
+                    [minFractionDigits]="0"
+                    [(ngModel)]="numeroTelefonicoNegocio"
+                    [style]="{ 'width' : '300px' }"
+                    class="font-bold"
+                    [max]="9999999999"
+                    [min]="1000000000"
+                    [showButtons]="false"
+                    mode="decimal"
+                    maxlength="10"/>
+    <small id="username-help">Ingrese el numero a editar!</small>
+  </div>
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Es ambulante:</label>
+    <p-checkbox [(ngModel)]="esAmbulante" [binary]="true" />
+    <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+    <small id="username-help">Seleccione: si | no</small>
+  </div>
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Propietario</label>
+      <p-select [options]="listadoPropietarios" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_propietario" [(ngModel)]="propietarioSeleccionado" optionLabel="nombre_propietario" placeholder="{{propietario}}" class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+        <!-- <ng-template #selectedItem let-selectedOption>
+          <div class="flex items-center gap-2">
+              <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + selectedCountry.code.toLowerCase()" style="width: 18px" />
+              <div>{{ selectedOption.nombre_propietario }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-propietario #item>
+          <div class="flex items-center gap-2">
+              <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png" [class]="'flag flag-' + country.code.toLowerCase()" style="width: 18px" />
+              <div>{{ propietario.nombre_propietarios }}</div>
+          </div>
+      </ng-template> -->
+
+
+    <small id="username-help">Ingrese el nombre a editar!</small>
+  </div>
+  <div class="flex flex-col gap-2" style="width: 50%;">
+    <label for="username">Actividad Económica</label>
+    <p-select [options]="actividadesEconomicas" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_actividad" [(ngModel)]="actividadSeleccionada" optionLabel="nombre_actividad" placeholder="{{actividadEconomica}}" class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+    <small id="username-help">Seleccione una opcion...</small>
+  </div>
+</div>
+
+
+<div class="card grid grid-cols-1 md:grid-cols-2 gap-4" style="margin-top: 30px; display: flex; justify-content: center; text-align: center;">
+  <div>
+    <!-- <p-button label="Guardar" (onClick)="actualizarPropietario()" icon="pi pi-check" iconPos="right" /> -->
+  </div>
+  <div>
+    <!-- <p-button label="Cancelar" (onClick)="cancelar()" icon="pi pi-times"  severity="danger" /> -->
+  </div>
+</div>

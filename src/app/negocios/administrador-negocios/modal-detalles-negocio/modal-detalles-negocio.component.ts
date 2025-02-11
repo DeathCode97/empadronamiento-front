@@ -58,6 +58,7 @@ export default class ModalDetallesNegocioComponent {
     this.nombrePropietario = this.config.data?.infoNegocio.nombre_propietario
     this.numeroTelefonicoNegocio = this.config.data?.infoNegocio.numero_telefonico_negocio
     this.numeroTelefonicoPropietario = this.config.data?.infoNegocio.numero_telefonico_propietario
+    this.esAmbulante = this.config.data?.infoNegocio.es_ambulante;
     this.consultarServicios(this.folioNegocio);
   }
 
