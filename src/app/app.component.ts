@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { Menubar, MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
+import { ImageModule } from 'primeng/image';
+// import { Component } from '@angular/core';
+import { Image } from 'primeng/image';
+// import  FooterComponent  from "./footer/footer.component"
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MenubarModule, RouterModule,],
+  imports: [RouterOutlet, MenubarModule, RouterModule, ImageModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -23,6 +27,11 @@ export class AppComponent {
 
   cargarRutas(){
     this.items = [
+      // {
+      //   label: '<img src="../../public/img/export.png" alt="Logo" height="40">',
+      //   escape: false,
+      //   routerLink: "/inicio",
+      // },
       {
         label: "Inicio",
         routerLink: "/inicio",

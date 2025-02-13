@@ -63,7 +63,7 @@ export default class ModalDetallesNegocioComponent {
   }
 
   consultarServicios(idNegocio: number){
-    this.requestService.postService("obtenerServiciosPorNegocio", {idPropietario: idNegocio}).subscribe({
+    this.requestService.postService("obtenerServiciosPorNegocio", {folioNegocio: idNegocio}).subscribe({
       next: (response) => {
         console.log(response);
         if(response.status === 'success'){

@@ -20,6 +20,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { Message } from 'primeng/message';
+// import { ConfirmationService, MessageService } from 'primeng/api';
 import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
 import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
 import ModalEditarNegocioComponent from "./modal-editar-negocio/modal-editar-negocio.component"
@@ -65,7 +66,9 @@ export default class AdministradorNegociosComponent {
 
   constructor(
     private requestService: ConsumeapiService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private messageService: MessageService,
+
   ){}
 
   ngOnInit(){
@@ -83,7 +86,7 @@ export default class AdministradorNegociosComponent {
       },{
         label: "Asignar servicios",
         icon: "pi pi-fw pi-plus-circle",
-        command: () => console.log("")
+        command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
       },
       {
         label: "Eliminar Negocio",
@@ -93,6 +96,21 @@ export default class AdministradorNegociosComponent {
     ]
 
     this.obtenerNegociosPropietarios()
+  }
+
+  abrirModalAsignarServicios(negocio: any){
+    this.modalVerDetalles = this.dialogService.open(ModalAgregarServiciosComponent, {
+      header: `Asignar servicios a: ${negocio.nombre_negocio}`,
+      width: '70%',
+      height: '500px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000,
+      data:{
+        infoNegocio: negocio
+      }
+    })
   }
 
   abrirModalVerDetalles(negocio: any){
@@ -121,6 +139,25 @@ export default class AdministradorNegociosComponent {
       baseZIndex: 10000,
       data:{
         infoNegocio: negocio
+      }
+    });
+
+    this.modalEditarNegocio.onClose.subscribe((response) => {
+      console.log(response);
+
+      console.log("return ");
+      if(response === undefined){
+        // console.log("xdxd");
+
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }else{
+        console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con exito' });
+          this.obtenerNegociosPropietarios()
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
       }
     })
   }

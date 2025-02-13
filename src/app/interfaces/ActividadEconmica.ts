@@ -1,5 +1,5 @@
 export interface ActividadEconomica{
-  idActividad: number,
-  nombreActividad: string,
+  id_actividad: number,
+  nombre_actividad: string,
   pertenece_giro: number
 }

@@ -1,1 +1,18 @@
-<p>modal-agregar-servicios works!</p>
+<div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div *ngFor="let servicio of dataServicios" class="flex items-center">
+
+    <p-checkbox [inputId]="servicio.nombre_servicio" name="group" [value]="servicio" [(ngModel)]="selectedServices" (ngModelChange)="onFieldChange()" />
+    <label [for]="servicio.id_servicio" class="ml-2"> {{ servicio.nombre_servicio }} </label>
+
+  </div>
+</div>
+<div class="card grid grid-cols-1 md:grid-cols-2 gap-4" style="margin-top: 30px; display: flex; justify-content: center; text-align: center;">
+
+  <div>
+    <!-- <p-button label="Cancelar" (onClick)="cancelar()" icon="pi pi-times"  severity="danger" /> -->
+  </div>
+  <div>
+    <p-button label="Guardar" *ngIf="formChanged" (onClick)="guardarServiciosSeleccionados()" icon="pi pi-check" iconPos="right" />
+  </div>
+
+</div>

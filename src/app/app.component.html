@@ -1,11 +1,23 @@
 <div class="menu">
   <div class="sidebar">
     <p-menubar [model]="items" class="fixed-menubar">
+      <!-- <ng-template pTemplate="start">
+        <img src="../../public/img/export.png" alt="logo" >
+      </ng-template> -->
+      <ng-template #start>
+        <img src="/export.png" alt="Logo" width="40" height="40">
+        <!-- <div class="card flex justify-center"> -->
+          <!-- <p-image src="/public/export.png" alt="Image" width="250" /> -->
+        <!-- </div> -->
+      </ng-template>
       Welcome!: UserName
     </p-menubar>
   </div>
   <div class="componentes" class="content">
     <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+    <p>© 2025 SISTEMA DE EMPADRONAMIENTO ZARAGOZA</p>
   </div>
 </div>
 
