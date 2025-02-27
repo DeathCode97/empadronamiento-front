@@ -1,7 +1,7 @@
 <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
   <div *ngFor="let servicio of dataServicios" class="flex items-center">
 
-    <p-checkbox [inputId]="servicio.nombre_servicio" name="group" [value]="servicio" [(ngModel)]="selectedServices" (ngModelChange)="onFieldChange()" />
+    <p-checkbox binary="true" [inputId]="servicio.nombre_servicio" name="group" [value]="servicio" [(ngModel)]="servicio.is_active" (ngModelChange)="onFieldChange()" />
     <label [for]="servicio.id_servicio" class="ml-2"> {{ servicio.nombre_servicio }} </label>
 
   </div>
