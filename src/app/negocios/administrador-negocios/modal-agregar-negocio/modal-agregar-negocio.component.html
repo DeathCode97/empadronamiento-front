@@ -1,0 +1,98 @@
+<div class="card flex justify-center">
+  <p-stepper [value]="1" class="basis-[50rem]">
+    <p-step-list>
+        <p-step [value]="1">Informacion del Negocio</p-step>
+        <p-step [value]="2">Servicios asociados</p-step>
+        <p-step [value]="3">Header II</p-step>
+    </p-step-list>
+    <p-step-panels>
+        <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                    <div>
+                      <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Nombre Negocio</label>
+                          <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="nombreNegocio" [style]="{ 'width' : '400px' }" class="font-bold"/>
+                        <small id="username-help">Ingrese el nombre correcto a editar!</small>
+                      </div>
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Dirección Negocio</label>
+                          <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="direccionNegocio" [style]="{ 'width' : '400px' }" class="font-bold"/>
+                        <small id="username-help">Ingrese direccion!</small>
+                      </div>
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Numero Telefónico</label>
+                        <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+                        <p-input-number [useGrouping]="false"
+                                        [maxFractionDigits]="0"
+                                        [minFractionDigits]="0"
+                                        [(ngModel)]="telefonoNegocio"
+                                        [style]="{ 'width' : '300px' }"
+                                        class="font-bold"
+                                        [max]="9999999999"
+                                        [min]="1000000000"
+                                        [showButtons]="false"
+                                        mode="decimal"
+                                        maxlength="10"
+                                        (ngModelChange)="onFieldChange()"/>
+                        <small id="username-help">Ingrese el numero a editar!</small>
+                      </div>
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Es ambulante:</label>
+                        <p-checkbox [(ngModel)]="esAmbulante" (ngModelChange)="onFieldChange()" [binary]="true" />
+                        <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+                        <small id="username-help">Seleccione: si | no</small>
+                      </div>
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Propietario</label>
+                          <p-select [options]="listadoPropietarios" (ngModelChange)="onFieldChange()" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_propietario" [(ngModel)]="propietarioSeleccionado" optionLabel="nombre_propietario"  class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+                        <small id="username-help">Ingrese el nombre a editar!</small>
+                      </div>
+                      <div class="flex flex-col gap-2" style="width: 50%;">
+                        <label for="username">Actividad Económica</label>
+                        <p-select [options]="actividadesEconomicas" (ngModelChange)="onFieldChange()" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_actividad" [(ngModel)]="actividadSeleccionada" optionLabel="nombre_actividad" class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+                        <small id="username-help">Seleccione una opcion...</small>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="flex pt-6 justify-end">
+                        <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                    </div>
+                </div>
+            </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                    <div
+                        class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
+                    >
+                        Content II
+                    </div>
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                    <p-button label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-48">
+                    <div
+                        class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
+                    >
+                        Content III
+                    </div>
+                </div>
+                <div class="flex pt-6 justify-start">
+                    <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="activateCallback(2)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+    </p-step-panels>
+</p-stepper>
+</div>

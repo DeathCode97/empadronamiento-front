@@ -24,6 +24,7 @@ import { Message } from 'primeng/message';
 import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
 import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
 import ModalEditarNegocioComponent from "./modal-editar-negocio/modal-editar-negocio.component"
+import ModalAgregarNegocioComponent from "./modal-agregar-negocio/modal-agregar-negocio.component"
 
 // Interfaces
 import { Negocio } from "../interfaces/Negocio"
@@ -34,6 +35,7 @@ import { Negocio } from "../interfaces/Negocio"
     TableModule,
     // ConsumeapiService,
     // ButtonLabel,
+    ButtonModule,
     TagModule,
     IconFieldModule,
     InputIconModule,
@@ -62,6 +64,7 @@ export default class AdministradorNegociosComponent {
   modalVerDetalles: DynamicDialogRef | undefined;
   modalEditarNegocio: DynamicDialogRef | undefined;
   modalAsignarServicios: DynamicDialogRef | undefined;
+  modalAgregarNegocio: DynamicDialogRef | undefined;
   negocioSeleccionado: Negocio | undefined;
 
   constructor(
@@ -96,6 +99,18 @@ export default class AdministradorNegociosComponent {
     ]
 
     this.obtenerNegociosPropietarios()
+  }
+
+  insertarNegocio(){
+    this.modalAgregarNegocio = this.dialogService.open(ModalAgregarNegocioComponent, {
+      header: `Agregar nuevo negocio`,
+      width: '70%',
+      height: '650px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000,
+    })
   }
 
   abrirModalAsignarServicios(negocio: any){
