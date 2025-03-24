@@ -1,1 +1,47 @@
-<p>administrador-servicios works!</p>
+<div class="card">
+  <p-treeTable
+    [value]="entities"
+    [tableStyle]="{'min-width': '50rem'}"
+    [scrollable]="true"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 25]"
+    #tt
+    [filterMode]="'strict'"
+    [globalFilterFields]="['rowNode.node.label', 'data']"
+    >
+
+    <ng-template #caption>
+      <div class="d-flex justify-content-center">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+              <i class="pi pi-search"></i>
+          </p-inputicon>
+          <!-- <input pInputText type="text" (input)="dt2.filterGlobal(onGlobalFilter(dt2, $event), 'contains')" placeholder="Search keyword"/> -->
+          <input pInputText type="text" (input)="applyGlobalFilter($event)" placeholder="Buscar...">
+          &nbsp;
+          <!-- <p-button icon="pi pi-plus" (onClick)="modalAgregarPropietario()" severity="success" pTooltip="Agregar nuevo propietario"/> -->
+        </p-iconfield>
+
+      </div>
+
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th>Entidad / Categoría / Servicio</th>
+        <th>Detalle</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-rowNode let-rowData="rowNode.node">
+      <tr class="highlight-row">
+        <td >
+          <!-- {{rowNode.node.label}} -->
+          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+          {{rowNode.node.label}}
+        </td>
+        <td>{{rowNode.node.data}}</td>
+      </tr>
+    </ng-template>
+  </p-treeTable>
+</div>

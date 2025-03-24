@@ -60,7 +60,7 @@ export default class ModalEditarNegocioComponent {
   ){}
 
   ngOnInit(){
-    console.log(this.config.data.infoNegocio);
+    // console.log(this.config.data.infoNegocio);
     this.direccion = this.config.data.infoNegocio?.direccion;
     this.esAmbulante = this.config.data.infoNegocio?.es_ambulante;
     this.actividadEconomica = this.config.data.infoNegocio?.nombre_actividad;

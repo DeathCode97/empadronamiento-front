@@ -25,6 +25,7 @@ import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agre
 import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
 import ModalEditarNegocioComponent from "./modal-editar-negocio/modal-editar-negocio.component"
 import ModalAgregarNegocioComponent from "./modal-agregar-negocio/modal-agregar-negocio.component"
+import ModalGenerarQrComponent from "./modal-generar-qr/modal-generar-qr.component"
 
 // Interfaces
 import { Negocio } from "../interfaces/Negocio"
@@ -65,6 +66,7 @@ export default class AdministradorNegociosComponent {
   modalEditarNegocio: DynamicDialogRef | undefined;
   modalAsignarServicios: DynamicDialogRef | undefined;
   modalAgregarNegocio: DynamicDialogRef | undefined;
+  modalGenerarQr: DynamicDialogRef | undefined;
   negocioSeleccionado: Negocio | undefined;
 
   constructor(
@@ -86,10 +88,17 @@ export default class AdministradorNegociosComponent {
         label: "Editar negocio",
         icon: "pi pi-fw pi-file-edit",
         command: () => this.abrirModalEditarNegocio(this.negocioSeleccionado)
-      },{
-        label: "Asignar servicios",
+      },
+      {
+        label: "Editar servicios",
         icon: "pi pi-fw pi-plus-circle",
         command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+      },
+      {
+        label: "Generar QR",
+        icon: "pi pi-fw pi-qrcode",
+        command: () => this.obetenerImagenQr(this.negocioSeleccionado)
+
       },
       {
         label: "Eliminar Negocio",
@@ -99,6 +108,21 @@ export default class AdministradorNegociosComponent {
     ]
 
     this.obtenerNegociosPropietarios()
+  }
+
+  obetenerImagenQr(negocio: any){
+    this.modalGenerarQr = this.dialogService.open(ModalGenerarQrComponent, {
+      header: `CODIGO QR ${negocio.nombre_negocio}`,
+      width: '30%',
+      height: '400px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "500px", "overflow": "auto", },
+      baseZIndex: 10000,
+      data:{
+        folioNegocio: negocio.folio_negocio
+      }
+    })
   }
 
   insertarNegocio(){
@@ -181,7 +205,7 @@ export default class AdministradorNegociosComponent {
     this.requestService.postService("obtenerNegociosConPropietarios", {}).subscribe({
       next: (response) => {
         this.negocios = response.data;
-        console.log(this.negocios);
+        // console.log(this.negocios);
 
       }
     })
