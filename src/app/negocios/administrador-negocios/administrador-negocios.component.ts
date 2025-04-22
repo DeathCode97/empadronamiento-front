@@ -128,20 +128,35 @@ export default class AdministradorNegociosComponent {
   insertarNegocio(){
     this.modalAgregarNegocio = this.dialogService.open(ModalAgregarNegocioComponent, {
       header: `Agregar nuevo negocio`,
-      width: '70%',
+      width: '50%',
       height: '650px',
       closable: true,
       modal: true,
       contentStyle: {"max-height": "700px", "overflow": "auto", },
       baseZIndex: 10000,
+    });
+    this.modalAgregarNegocio.onClose.subscribe((response) => {
+      console.log(response);
+      if(response){
+        // console.log("axia");
+        // console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con exito' });
+          this.obtenerNegociosPropietarios();
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
+      }else{
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }
     })
   }
 
   abrirModalAsignarServicios(negocio: any){
     this.modalVerDetalles = this.dialogService.open(ModalAgregarServiciosComponent, {
       header: `Asignar servicios a: ${negocio.nombre_negocio}`,
-      width: '70%',
-      height: '500px',
+      width: '50%',
+      height: '650px',
       closable: true,
       modal: true,
       contentStyle: {"max-height": "700px", "overflow": "auto", },
@@ -196,7 +211,7 @@ export default class AdministradorNegociosComponent {
           this.obtenerNegociosPropietarios()
         }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
-        }
+        }``
       }
     })
   }

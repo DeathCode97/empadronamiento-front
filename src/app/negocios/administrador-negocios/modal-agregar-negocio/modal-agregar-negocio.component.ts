@@ -19,6 +19,10 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { elementAt } from 'rxjs';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CommonModule } from '@angular/common'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import {DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-modal-agregar-negocio',
@@ -36,9 +40,14 @@ import { CommonModule } from '@angular/common'
     TreeTableModule,
     FieldsetModule,
     CheckboxModule,
-    CommonModule
+    CommonModule,
+    ToastModule
   ],
   templateUrl: './modal-agregar-negocio.component.html',
+  providers: [
+    MessageService,
+    ConfirmationService
+  ],
   styleUrl: './modal-agregar-negocio.component.css'
 })
 export default class ModalAgregarNegocioComponent {
@@ -61,6 +70,7 @@ export default class ModalAgregarNegocioComponent {
   servicioPcSeleccionado: Servicio | undefined;
   servicioLicSueloSeleccionado: Servicio | undefined;
   servicioBebidaSeleccionado: Servicio | undefined;
+  servicioPublicidadSeleccionado: Servicio | undefined;
 
   chkBebidas: boolean = false;
   chkPublicidad: boolean = false;
@@ -75,7 +85,9 @@ export default class ModalAgregarNegocioComponent {
   // serviciosLicenciaUsoSuelo: Nodo
   // nuevoJson: JsonObject | undefined;
   constructor(
-    private requestService: ConsumeapiService
+    private requestService: ConsumeapiService,
+    private messageService: MessageService,
+    public ref: DynamicDialogRef
   ){
 
   }
@@ -85,7 +97,15 @@ export default class ModalAgregarNegocioComponent {
     this.obtenerPropietarios();
     this.obtenerActividadesEconomicas();
     this.obtenerServiciosTodos();
+    // this.insertarNegocio();
   }
+
+  // CREAMOS EL FORMULARIO
+  // formulario = new FormGroup({
+  //   nombreNegocio: new FormControl('', [Validators.required]), // Validación de campo obligatorio
+  // });
+
+
 
   obtenerPropietarios(){
     this.requestService.postService("obtenerPropietarios", {}).subscribe({
@@ -97,8 +117,71 @@ export default class ModalAgregarNegocioComponent {
   }
 
   imprimirEsAmbulante(){
-    console.log(this.esAmbulante);
+    // console.log(this.esAmbulante);
 
+  }
+
+  insertarNegocio(){
+    if(this.esAmbulante){
+      const dataNegocio = {
+        nombreNegocio: this.nombreNegocio,
+        direccion: this.direccionNegocio,
+        esAmbulante: this.esAmbulante === true ? 1 : 0,
+        idPropietario: this.propietarioSeleccionado?.folio_propietario,
+        actividadEconomica: this.actividadSeleccionada?.id_actividad,
+        numeroTelefonicoNegocio: this.telefonoNegocio?.toString(),
+        vendeAlcohol: this.chkBebidas === true ? 1 : 0,
+        tienePublicidad: this.chkPublicidad === true ? 1 : 0,
+
+      };
+      console.log(dataNegocio);
+
+      this.requestService.postService("agregarNegocio", dataNegocio).subscribe({
+        next: (response) => {
+          this.ref.close(response);
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        }
+      })
+    }else{
+      const dataNegocio = {
+        nombreNegocio: this.nombreNegocio,
+        direccion: this.direccionNegocio,
+        esAmbulante: this.esAmbulante ? 1 : 0,
+        idPropietario: this.propietarioSeleccionado?.folio_propietario,
+        actividadEconomica: this.actividadSeleccionada?.id_actividad,
+        numeroTelefonicoNegocio: this.telefonoNegocio?.toString(),
+        vendeAlcohol: this.chkBebidas === true ? 1 : 0,
+        tienePublicidad: this.chkPublicidad === true ? 1 : 0,
+        servicios: [
+          this.servicioLicSueloSeleccionado?.id_servicio == undefined ? 0 : this.servicioLicSueloSeleccionado?.id_servicio,
+          this.servicioPcSeleccionado?.id_servicio == undefined ? 0 : this.servicioPcSeleccionado?.id_servicio,
+          this.servicioBebidaSeleccionado?.id_servicio == undefined ? 0 : this.servicioBebidaSeleccionado?.id_servicio,
+          this.servicioPublicidadSeleccionado?.id_servicio == undefined ? 0 : this.servicioPublicidadSeleccionado?.id_servicio
+        ]
+      };
+      console.log(dataNegocio);
+
+      this.requestService.postService("agregarNegocio", dataNegocio).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.ref.close(response);
+        },
+        error: (error) => {
+          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        }
+      })
+    }
+  }
+
+  insertarServiciosANegocios(){
+    // const dataServicios = {
+    //   folioNegocio: ,
+    //   idServicio:
+    // };
   }
 
   obtenerServiciosTodos(){
@@ -108,6 +191,7 @@ export default class ModalAgregarNegocioComponent {
         this.serviciosPc = response.data.PROTECCION_CIVIL;
         this.serviciosLicSuelo = response.data.USO_SUELO;
         this.serviciosBebidas = response.data.BEBIDAS;
+
         // console.log(this.serviciosPc);
         // console.log(this.serviciosLicSuelo);
         // console.log(this.serviciosBebidas);

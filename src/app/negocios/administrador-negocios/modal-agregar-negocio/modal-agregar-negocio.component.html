@@ -1,3 +1,4 @@
+<p-toast />
 <div class="card flex justify-center">
   <p-stepper [value]="1" class="basis-[50rem]">
     <p-step-list>
@@ -13,12 +14,12 @@
                       <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="flex flex-col gap-2" style="width: 50%;">
                           <label for="username">Nombre Negocio</label>
-                            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="nombreNegocio" [style]="{ 'width' : '400px' }" class="font-bold"/>
+                            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="nombreNegocio" (input)="nombreNegocio = nombreNegocio?.toUpperCase()" [style]="{ 'width' : '400px' }" class="font-bold"/>
                           <small id="username-help">Ingrese el nombre correcto a editar!</small>
                         </div>
                         <div class="flex flex-col gap-2" style="width: 50%;">
                           <label for="username">Dirección Negocio</label>
-                            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="direccionNegocio" [style]="{ 'width' : '400px' }" class="font-bold"/>
+                            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="direccionNegocio" (input)="direccionNegocio = direccionNegocio?.toUpperCase()" [style]="{ 'width' : '400px' }" class="font-bold"/>
                           <small id="username-help">Ingrese direccion!</small>
                         </div>
                         <div class="flex flex-col gap-2" style="width: 50%;">
@@ -57,8 +58,8 @@
                       </div>
                     </div>
                     <div class="flex pt-6 justify-between" >
-                        <p-button label="Guardar"  *ngIf="esAmbulante"/>
-                        <p-button label="Next" [ngStyle]="{'display': !esAmbulante ? 'block' : 'none'}" severity="info" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                        <p-button label="Guardar"  *ngIf="esAmbulante" (onClick)="insertarNegocio()"/>
+                        <p-button label="Next" [ngStyle]="{'display': !esAmbulante ? 'block' : 'none'}" severity="info" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2);" />
                     </div>
                 </div>
             </ng-template>
@@ -76,15 +77,9 @@
                     <div class="minimal-label">
                       <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                        <div class="flex flex-col gap-2" style="justify-content: center; width: 50%;" >
+                        <div class="flex flex-col gap-2" style="justify-content: center;">
                           <label for="username">LICENCIA DE USO DE SUELO (COMERCIOS)</label>
                           <p-select [options]="serviciosLicSuelo" placeholder="Seleccione..." (ngModelChange)="onFieldChange()" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_servicio" [(ngModel)]="servicioLicSueloSeleccionado" optionLabel="nombre_servicio"  class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
-                          <small id="username-help"></small>
-                        </div>
-
-                        <div class="flex flex-col gap-2" style="justify-content: center; width: 50%;">
-                          <label for="username">LICENCIA DE BEBIDAS ALCOHOLICAS</label>
-                          <p-select [options]="serviciosBebidas" (ngModelChange)="onFieldChange()" placeholder="Seleccione..." appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_servicio" [(ngModel)]="servicioBebidaSeleccionado" optionLabel="nombre_servicio"  class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
                           <small id="username-help"></small>
                         </div>
 
@@ -117,7 +112,7 @@
 
                   <div class="flex pt-6 justify-between">
                     <p-button label="Atras" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
-                    <p-button label="Guardar" />
+                    <p-button label="Guardar" *ngIf="!chkPublicidad && !chkBebidas" (onClick)="insertarNegocio()"/>
                     <p-button [ngStyle]="{'display': chkPublicidad || chkBebidas ? 'block' : 'none'}" label="Siguiente" severity="info" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
                   </div>
                 </div>
@@ -128,14 +123,29 @@
         <p-step-panel [value]="3" [ngStyle]="{'display': chkPublicidad || chkBebidas ? 'block' : 'none'}">
             <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
-                    <div
-                        class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-                    >
-                        Content III
+                  <p-fieldset legend="PATRIMONIO Y HACIENDA PUBLICA MUNICIPAL">
+                    <div class="minimal-label">
+                      <div class="card grid grid-cols-1 md:grid-cols-2 gap-4" >
+
+                        <div class="flex flex-col gap-2" style="justify-content: center; width: 100%;" *ngIf="chkBebidas">
+                          <label for="">LICENCIA DE BEBIDAS ALCOHOLICAS</label>
+                          <p-select [options]="serviciosBebidas" (ngModelChange)="onFieldChange()" placeholder="Seleccione..." appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_servicio" [(ngModel)]="servicioBebidaSeleccionado" optionLabel="nombre_servicio"  class="w-full md:w-100"  />
+                          <small id="username-help"></small>
+                        </div>
+
+                        <div class="flex flex-col gap-2" style="justify-content: center; width: 100%;" *ngIf="chkPublicidad">
+                          <label for="username">LICENCIA DE PUBLICIDAD</label>
+                          <p-select [options]="serviciosBebidas" (ngModelChange)="onFieldChange()" placeholder="Seleccione..." appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_servicio" [(ngModel)]="servicioPublicidadSeleccionado" optionLabel="nombre_servicio"  class="w-full md:w-100"  />
+                          <small id="username-help"></small>
+                        </div>
+
+                      </div>
                     </div>
+                  </p-fieldset>
                 </div>
-                <div class="flex pt-6 justify-start">
-                    <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="activateCallback(2)" />
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atras" severity="secondary" icon="pi pi-arrow-left" iconPos="left" (onClick)="activateCallback(2)" />
+                    <p-button label="Guardar" (onClick)="insertarNegocio()"/>
                 </div>
             </ng-template>
         </p-step-panel>

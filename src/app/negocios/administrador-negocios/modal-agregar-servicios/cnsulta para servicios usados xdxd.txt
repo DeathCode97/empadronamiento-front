@@ -1,0 +1,19 @@
+select
+	s.id_servicio,
+	s.nombre_servicio,
+	s.descripcion_servicio,
+	s.frecuencia_pago,
+	ns.is_active,
+	sc.nombre_subcategoria ,
+	ce.nombre_categoria,
+	e.nombre_entidad,
+	COALESCE(e.nombre_entidad, e2.nombre_entidad) AS entidad_final
+from negocioservicios ns
+	join negocio n on ns.folio_negocio = n.folio_negocio
+	join servicios s on ns.id_servicio = s.id_servicio
+	left join subcategorias_categorias sc on s.sub_categoria = sc.id_subcategoria
+	left join categorias_entidades ce on s.categoria = ce.id_categoria
+	left join entidades e on s.entidad = e.folio_entidad
+	left join entidades e2 ON ce.entidad = e2.folio_entidad
+
+where ns.folio_negocio = 68;
