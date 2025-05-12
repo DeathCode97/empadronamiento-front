@@ -78,6 +78,7 @@ export default class ModalAgregarServiciosComponent {
 
 
 
+
   serviciosAsignadosDesasignados(idNegocio: number){
     console.log("acia agregar");
     console.log(idNegocio);
@@ -111,7 +112,9 @@ export default class ModalAgregarServiciosComponent {
     })
   }
 
-  actualizarServicios(){}
+  actualizarServicios(){
+
+  }
 
   obtenerServiciosTodos(){
     this.requestService.postService("obtenerServiciosTodos", {}).subscribe({

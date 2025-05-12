@@ -1,6 +1,6 @@
 <div class="menu">
-  <div class="sidebar">
-    <p-menubar [model]="items" class="fixed-menubar">
+  <div class="sidebar" >
+    <p-menubar [model]="items" class="fixed-menubar" *ngIf="estaAutenticado">
       <!-- <ng-template pTemplate="start">
         <img src="../../public/img/export.png" alt="logo" >
       </ng-template> -->
@@ -10,7 +10,15 @@
           <!-- <p-image src="/public/export.png" alt="Image" width="250" /> -->
         <!-- </div> -->
       </ng-template>
-      Welcome!: UserName
+      <div style="display: flex; align-items: center;">
+        <div>
+          Hola!: {{nombreUser}}
+        </div>
+        <div>
+          <p-button label="Cerrar sesión" variant="text" severity="danger" (onClick)="logout()" />
+        </div>
+      </div>
+
     </p-menubar>
   </div>
   <div class="componentes" class="content">

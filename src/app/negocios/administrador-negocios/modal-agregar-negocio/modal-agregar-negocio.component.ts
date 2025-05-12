@@ -23,6 +23,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
   selector: 'app-modal-agregar-negocio',
@@ -41,7 +42,8 @@ import {DynamicDialogRef} from 'primeng/dynamicdialog';
     FieldsetModule,
     CheckboxModule,
     CommonModule,
-    ToastModule
+    ToastModule,
+    RadioButtonModule
   ],
   templateUrl: './modal-agregar-negocio.component.html',
   providers: [
@@ -74,6 +76,13 @@ export default class ModalAgregarNegocioComponent {
 
   chkBebidas: boolean = false;
   chkPublicidad: boolean = false;
+
+  pagoEmpadronamiento: string | undefined;
+  pagoIndutriaYComercio: string | undefined;
+  pagoLicenciaUsoSuelo: string | undefined;
+  pagoRevisionProteccionCivil: string | undefined;
+  pagoLicenciaBebidasAlc: string |undefined;
+  pagoLicenciaPublicidad: string | undefined;
 
   //
   // proteccionCivil: any[] = [];

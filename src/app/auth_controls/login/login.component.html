@@ -1,0 +1,32 @@
+
+
+<div class="flex flex-col md:flex-row">
+  <p-toast />
+  <div class="w-full md:w-5/12 flex flex-col items-center justify-center gap-3 py-5">
+    <p-card header="Inicio de sesión" class="w-full max-w-xl h-96" [style]="{'height': '80%'}">
+      <form (ngSubmit)="onSubmit()">
+        <div class="flex flex-col gap-2">
+            <label for="username">Username</label>
+            <!-- <input pInputText id="username" type="text" /> -->
+            <input type="text" pInputText [(ngModel)]="email" name="email" placeholder="Correo Electrónico" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="password">Password</label>
+            <!-- <input pInputText id="password" type="password" /> -->
+            <p-password [(ngModel)]="password" [feedback]="false" name="password" [toggleMask]="true"/>
+        </div>
+        <br>
+        <div class="flex">
+            <p-button label="Login" type="submit" icon="pi pi-user" class="w-full max-w-[17.35rem]" styleClass="w-full mx-auto" />
+        </div>
+      </form>
+    </p-card>
+  </div>
+  <div class="w-full md:w-2/12">
+      <p-divider layout="vertical" class="!hidden md:!flex"><b>OR</b></p-divider>
+      <p-divider layout="horizontal" class="!flex md:!hidden" align="center"><b>OR</b></p-divider>
+  </div>
+  <div class="w-full md:w-5/12 flex items-center justify-center py-5">
+      <p-button label="Sign Up" icon="pi pi-user-plus" severity="success" class="w-full max-w-[17.35rem]" styleClass="w-full mx-auto" />
+  </div>
+</div>

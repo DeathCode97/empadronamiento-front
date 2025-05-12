@@ -1,63 +1,25 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './auth.guard';
 // import { AdministradorPagosComponent } from './pagos/administrador-pagos/administrador-pagos.component'
 
 export const routes: Routes = [
     {
+      path: "login",
+      loadComponent: () => import('./auth_controls/login/login.component')
+    },
+    {
       path: "inicio",
       loadComponent: () => import('./menu/menu.component'),
-      // children: [
-      //   {
-      //     path: 'negocios',
-      //     title: 'Negocios',
-      //     children: [
-      //       {
-      //         path: 'administrador',
-      //         title: 'Administrador de Negocios',
-      //         loadComponent: () => import('./negocios/administrador-negocios/administrador-negocios.component')
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     path: 'pagos',
-      //     title: 'Pagos',
-      //     children: [
-      //       {
-      //         path: 'administrador',
-      //         title: 'Administrador de Pagos',
-      //         loadComponent: () => import('./pagos/administrador-pagos/administrador-pagos.component')
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     path: 'propietarios',
-      //     title: 'Propietarios',
-      //     children: [
-      //       {
-      //         path: 'administrador',
-      //         title: 'Administrador de Propietarios',
-      //         loadComponent: () => import('./propietarios/administrador-propietarios/administrador-propietarios.component')
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     path: 'servicios',
-      //     title: 'Servicios',
-      //     children: [
-      //       {
-      //         path: 'administrador',
-      //         title: 'Administrador de Servicios',
-      //         loadComponent: () => import('./servicios/administrador-servicios/administrador-servicios.component')
-      //       }
-      //     ]
-      //   }
-      // ]
+      canActivate: [authGuard]
     },
     {
       path: "pagos",
+      // canActivate: [authGuard],
       children: [
         {
           path: "administrador",
-          loadComponent: () => import("./pagos/administrador-pagos/administrador-pagos.component")
+          loadComponent: () => import("./pagos/administrador-pagos/administrador-pagos.component"),
+          canActivate: [authGuard]
         }
       ]
     },
@@ -66,7 +28,8 @@ export const routes: Routes = [
       children: [
         {
           path: "administrador",
-          loadComponent: () => import("./negocios/administrador-negocios/administrador-negocios.component")
+          loadComponent: () => import("./negocios/administrador-negocios/administrador-negocios.component"),
+          canActivate: [authGuard]
         }
       ]
     },
@@ -75,7 +38,8 @@ export const routes: Routes = [
       children: [
         {
           path: "administrador",
-          loadComponent: () => import("./propietarios/administrador-propietarios/administrador-propietarios.component")
+          loadComponent: () => import("./propietarios/administrador-propietarios/administrador-propietarios.component"),
+          canActivate: [authGuard]
         }
       ]
     },
@@ -84,13 +48,15 @@ export const routes: Routes = [
       children: [
         {
           path: "administrador",
-          loadComponent: () => import("./servicios/administrador-servicios/administrador-servicios.component")
+          loadComponent: () => import("./servicios/administrador-servicios/administrador-servicios.component"),
+          canActivate: [authGuard]
         }
       ]
     },
     {
       path: "",
       redirectTo: 'inicio',
-      pathMatch: 'full'
+      pathMatch: 'full',
+      // canActivate: [authGuard]
     }
 ];
