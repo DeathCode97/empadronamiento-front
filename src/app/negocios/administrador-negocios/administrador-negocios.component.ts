@@ -20,6 +20,10 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { Message } from 'primeng/message';
+import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
+import { MenuModule } from 'primeng/menu';
+// import jwtDecode from '';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
 import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
@@ -34,6 +38,7 @@ import { Negocio } from "../interfaces/Negocio"
   selector: 'app-administrador-negocios',
   imports: [
     TableModule,
+    MenuModule,
     // ConsumeapiService,
     // ButtonLabel,
     ButtonModule,
@@ -48,7 +53,8 @@ import { Negocio } from "../interfaces/Negocio"
     // ConfirmDialog,
     ToastModule,
     TooltipModule,
-    // Message
+    // Message,
+    CommonModule
   ],
   standalone: true,
   templateUrl: './administrador-negocios.component.html',
@@ -68,6 +74,8 @@ export default class AdministradorNegociosComponent {
   modalAgregarNegocio: DynamicDialogRef | undefined;
   modalGenerarQr: DynamicDialogRef | undefined;
   negocioSeleccionado: Negocio | undefined;
+  usuarioAutenticado: boolean | undefined;
+  userLogged: any = '';
 
   constructor(
     private requestService: ConsumeapiService,
@@ -78,36 +86,67 @@ export default class AdministradorNegociosComponent {
 
   ngOnInit(){
 
-    this.opcionesNegocio = [
-      {
-        label: "Ver detalles",
-        icon: "pi pi-fw pi-eye",
-        command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
-      },
-      {
-        label: "Editar negocio",
-        icon: "pi pi-fw pi-file-edit",
-        command: () => this.abrirModalEditarNegocio(this.negocioSeleccionado)
-      },
-      {
-        label: "Editar servicios",
-        icon: "pi pi-fw pi-plus-circle",
-        command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
-      },
-      {
-        label: "Generar QR",
-        icon: "pi pi-fw pi-qrcode",
-        command: () => this.obetenerImagenQr(this.negocioSeleccionado)
+    this.userLogged = localStorage.getItem('userAuth');
 
-      },
-      {
-        label: "Eliminar Negocio",
-        icon: "pi pi-fw pi-trash",
-        command: () => console.log("")
-      }
-    ]
+    if(this.userLogged === 'HACIENDA'){
+      this.usuarioAutenticado = true;
+      this.opcionesNegocio = [
+        {
+          label: "Ver detalles",
+          icon: "pi pi-fw pi-eye",
+          command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
+        },
+        {
+          label: "Editar negocio",
+          icon: "pi pi-fw pi-file-edit",
+          command: () => this.abrirModalEditarNegocio(this.negocioSeleccionado)
+        },
+        {
+          label: "Generar QR",
+          icon: "pi pi-fw pi-qrcode",
+          command: () => this.obetenerImagenQr(this.negocioSeleccionado)
 
-    this.obtenerNegociosPropietarios()
+        },
+        {
+          label: "Eliminar Negocio",
+          icon: "pi pi-fw pi-trash",
+          command: () => console.log("")
+        }
+      ]
+    }
+    else if(this.userLogged === 'PROTECCION CIVIL'){
+      this.usuarioAutenticado = false;
+      // if()
+      this.opcionesNegocio = [
+        {
+          label: "Asignar Revision de Proteccion civil",
+          icon: "pi pi-fw pi-plus-circle",
+          command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+        },
+        {
+          label: "Editar Revision de Proteccion civil",
+          icon: "pi pi-fw pi-file-edit",
+          // command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+        }
+      ]
+    }
+
+
+    this.obtenerNegociosPropietarios();
+    // this.validarRol();
+  }
+
+  setMenuOptionsPc(rowData: any){
+    this.opcionesNegocio = [];
+    console.log(rowData);
+
+  }
+
+  validarRol(){
+    const token = localStorage.getItem('token');
+    const decodedToken: any = token ? jwtDecode(token) : null;
+    console.log(decodedToken?.role);
+
   }
 
   obetenerImagenQr(negocio: any){
@@ -128,8 +167,8 @@ export default class AdministradorNegociosComponent {
   insertarNegocio(){
     this.modalAgregarNegocio = this.dialogService.open(ModalAgregarNegocioComponent, {
       header: `Agregar nuevo negocio`,
-      width: '50%',
-      height: '650px',
+      width: '60%',
+      height: '500px',
       closable: true,
       modal: true,
       contentStyle: {"max-height": "700px", "overflow": "auto", },
@@ -151,9 +190,9 @@ export default class AdministradorNegociosComponent {
       }
     })
   }
-
+// MODAL PARA AGREGAR LA INFORMACION DE PROTECCION CIVIL.
   abrirModalAsignarServicios(negocio: any){
-    this.modalVerDetalles = this.dialogService.open(ModalAgregarServiciosComponent, {
+    this.modalAsignarServicios = this.dialogService.open(ModalAgregarServiciosComponent, {
       header: `Asignar servicios a: ${negocio.nombre_negocio}`,
       width: '50%',
       height: '650px',
@@ -163,6 +202,22 @@ export default class AdministradorNegociosComponent {
       baseZIndex: 10000,
       data:{
         infoNegocio: negocio
+      }
+    });
+
+    this.modalAsignarServicios.onClose.subscribe((response) => {
+      console.log(response);
+      if(response){
+        // console.log("axia");
+        // console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con exito' });
+          this.obtenerNegociosPropietarios();
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
+      }else{
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
       }
     })
   }
@@ -234,7 +289,7 @@ export default class AdministradorNegociosComponent {
     if(esAmbulante){
       return 'info';
     }else{
-      return 'warn'
+      return 'danger'
     }
   }
 }

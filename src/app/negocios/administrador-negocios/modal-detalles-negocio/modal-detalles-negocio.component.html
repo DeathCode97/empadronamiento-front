@@ -48,35 +48,50 @@
        </p-accordion-panel>
 
        <p-accordion-panel value="1">
-            <p-accordion-header class="highlight-row" >Servicios</p-accordion-header>
+            <p-accordion-header class="highlight-row" >Revision de proteccion civil</p-accordion-header>
             <p-accordion-content>
-              <div class="table-container">
-                <p-table [value]="dataNegocio" >
-                  <ng-template #header>
-                      <tr>
-                          <th>Nombre Servicio</th>
-                          <th>Descripcion</th>
-                          <th>Frecuencia de pago</th>
-                          <!-- <th>Quantity</th> -->
-                      </tr>
-                  </ng-template>
-                  <ng-template #body let-data>
-                      <tr>
-                          <td>{{ data.nombre_servicio }}</td>
-                          <td>{{ data.descripcion_servicio }}</td>
-                          <td>{{ data.frecuencia_pago }}</td>
-                          <!-- <td>{{ product.quantity }}</td> -->
-                      </tr>
-                  </ng-template>
-                </p-table>
-              </div>
-              <!-- contenido -->
+
+              <p-card *ngIf="!revisionProteccionCivil">
+                <div class="card flex flex-wrap gap-4 justify-center">
+                  <p-message>EL NEGOCIO NO CUENTA CON REVISION DE PROTECCION CIVIL</p-message>
+                </div>
+              </p-card>
+
+              <p-card  *ngIf="revisionProteccionCivil">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Direccion:</label>
+                    <p class="text-gray-600">{{ direccionRevision }}</p>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Metrajes del establecimiento:</label>
+                    <p class="text-gray-600">Frente: {{ metrajeFrente }} m</p>
+                    <p class="text-gray-600">Largo: {{ metrajeLargo }} m</p>
+                    <p class="text-gray-600">Total m2: {{ metrajeTotal }} m2</p>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Anuncio:</label>
+                    <p class="text-gray-600">Tipo anuncio{{ tipoAnuncio }}</p>
+                    <p class="text-gray-600">Frente: {{ metrajeAnuncioFrente }} m</p>
+                    <p class="text-gray-600">Largo: {{ metrajeAnuncioLargo }} m</p>
+                    <p class="text-gray-600">Total M2: {{ metrajeAnuncioTotal }} m2</p>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Observación 1:</label>
+                    <p class="text-gray-600">{{ observacion1 }}</p>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Observación 2:</label>
+                    <p class="text-gray-600">{{ observacion2 }}</p>
+                  </div>
+                </div>
+              </p-card>
 
             </p-accordion-content>
        </p-accordion-panel>
 
        <p-accordion-panel value="2">
-           <p-accordion-header class="highlight-row">Estatus servicios</p-accordion-header>
+           <p-accordion-header class="highlight-row">Estatus de pago</p-accordion-header>
            <p-accordion-content>
                <!-- contenido -->
            </p-accordion-content>

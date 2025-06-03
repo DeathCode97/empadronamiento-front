@@ -1,7 +1,7 @@
 <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
   <div class="flex flex-col gap-2" style="width: 50%;">
     <label for="username">Nombre Completo</label>
-    <input type="text" pInputText  [(ngModel)]="nombrePropietario" [style]="{ 'width' : '400px' }" class="font-bold"/>
+    <input type="text" pInputText  [(ngModel)]="nombrePropietario" (input)="nombrePropietario = nombrePropietario?.toUpperCase()" [style]="{ 'width' : '400px' }" class="font-bold"/>
     <small id="username-help">Ingrese el nombre del propietario</small>
   </div>
   <div class="flex flex-col gap-2" style="width: 50%;">

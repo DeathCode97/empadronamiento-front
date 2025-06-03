@@ -1,4 +1,4 @@
-<p-toast />
+<!-- <p-toast />
 <div class="card flex justify-center">
   <p-stepper [value]="1" class="basis-[50rem]">
     <p-step-list>
@@ -24,7 +24,7 @@
                         </div>
                         <div class="flex flex-col gap-2" style="width: 50%;">
                           <label for="username">Numero Telefónico</label>
-                          <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+                          <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" />
                           <p-input-number [useGrouping]="false"
                                           [maxFractionDigits]="0"
                                           [minFractionDigits]="0"
@@ -42,7 +42,7 @@
                         <div class="flex flex-col gap-2" style="width: 50%;">
                           <label for="username">Es ambulante:</label>
                           <p-checkbox [(ngModel)]="esAmbulante" (ngModelChange)="onFieldChange()" [binary]="true" />
-                          <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+                          <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" />
                           <small id="username-help">Seleccione: si | no</small>
                         </div>
                         <div class="flex flex-col gap-2" style="width: 50%;">
@@ -212,4 +212,58 @@
         </p-step-panel>
     </p-step-panels>
 </p-stepper>
-</div>
+</div> -->
+
+<div class="flex flex-col h-48">
+    <div>
+      <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Nombre Negocio</label>
+            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="nombreNegocio" (input)="nombreNegocio = nombreNegocio?.toUpperCase()" [style]="{ 'width' : '400px' }" class="font-bold"/>
+          <small id="username-help">Ingrese el nombre correcto a editar!</small>
+        </div>
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Dirección Negocio</label>
+            <input type="text" pInputText (ngModelChange)="onFieldChange()" [(ngModel)]="direccionNegocio" (input)="direccionNegocio = direccionNegocio?.toUpperCase()" [style]="{ 'width' : '400px' }" class="font-bold"/>
+          <small id="username-help">Ingrese direccion!</small>
+        </div>
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Numero Telefónico</label>
+          <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+          <p-input-number [useGrouping]="false"
+                          [maxFractionDigits]="0"
+                          [minFractionDigits]="0"
+                          [(ngModel)]="telefonoNegocio"
+                          [style]="{ 'width' : '300px' }"
+                          class="font-bold"
+                          [max]="9999999999"
+                          [min]="1000000000"
+                          [showButtons]="false"
+                          mode="decimal"
+                          maxlength="10"
+                          (ngModelChange)="onFieldChange()"/>
+          <small id="username-help">Ingrese el numero a editar!</small>
+        </div>
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Es ambulante:</label>
+          <p-checkbox [(ngModel)]="esAmbulante" (ngModelChange)="onFieldChange()" [binary]="true" />
+          <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
+          <small id="username-help">Seleccione: si | no</small>
+        </div>
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Propietario</label>
+            <p-select [options]="listadoPropietarios" placeholder="Seleccione..." (ngModelChange)="onFieldChange()" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_propietario" [(ngModel)]="propietarioSeleccionado" optionLabel="nombre_propietario"  class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+          <small id="username-help">Ingrese el nombre a editar!</small>
+        </div>
+        <div class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Actividad Económica</label>
+          <p-select [options]="actividadesEconomicas" placeholder="Seleccione..." (ngModelChange)="onFieldChange()" appendTo="body" [filter]="true" [showClear]="true" filterBy="nombre_actividad" [(ngModel)]="actividadSeleccionada" optionLabel="nombre_actividad" class="w-full md:w-56"  [style]="{ 'width': '150%' }"/>
+          <small id="username-help">Seleccione una opcion...</small>
+        </div>
+      </div>
+    </div>
+    <div class="flex pt-6 justify-center" >
+        <p-button label="Guardar"  (onClick)="insertarNegocio()"/>
+        <!-- <p-button label="Next" [ngStyle]="{'display': !esAmbulante ? 'block' : 'none'}" severity="info" icon="pi pi-arrow-right" iconPos="right"  /> -->
+    </div>
+  </div>

@@ -50,7 +50,7 @@
       <tr [pContextMenuRow]="prop" class="highlight-row">
         <td class="center-content">{{ prop.folio_propietario }}</td>
         <td class="center-content">{{ prop.nombre_propietario }}</td>
-        <td class="center-content">0</td>
+        <td class="center-content">{{prop.cantidad_negocio}}</td>
         <td class="center-content">{{ prop.numero_telefonico == null ? 'No Asignado' : prop.numero_telefonico }}</td>
       </tr>
     </ng-template>

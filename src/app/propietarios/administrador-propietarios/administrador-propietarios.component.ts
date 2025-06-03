@@ -94,10 +94,10 @@ export default class AdministradorPropietariosComponent {
   }
 
   obtenerPropietarios(){
-    this.requestService.postService("obtenerPropietarios", {}).subscribe({
+    this.requestService.postService("obtenerPropietariosYNegos", {}).subscribe({
       next: (response) => {
         this.listadoPropietarios = response.data;
-        // console.log(response);
+        console.log(response);
       }
     })
   }

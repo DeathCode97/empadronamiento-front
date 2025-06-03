@@ -8,5 +8,7 @@ export interface Negocio{
   nombrePropietario: string,
   numeroTelefonicoPropietario: string,
   nombreActividad: string,
-  nombreGiro: string
+  nombreGiro: string,
+  esNegocioNuevo: boolean,
+  revisionProteccionCivil: boolean
 }

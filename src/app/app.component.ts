@@ -9,7 +9,7 @@ import { Image } from 'primeng/image';
 import { AuthApiService } from './services/auth-api.service'
 // import  FooterComponent  from "./footer/footer.component"
 import { ButtonModule } from 'primeng/button';
-
+import { ConsumeapiService } from './services/consumeapi.service'
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,8 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthApiService
+    private authService: AuthApiService,
+    private requestService: ConsumeapiService,
   ){}
 
 
@@ -34,7 +35,7 @@ export class AppComponent {
     this.cargarRutas();
     this.estaAutenticado = this.authService.isAuthenticated() ? true : false;
     this.nombreUser = localStorage.getItem('userAuth')
-    console.log(this.nombreUser);
+    // console.log(this.nombreUser);
   }
 
   isLoginPage(): boolean{
@@ -44,6 +45,14 @@ export class AppComponent {
   logout(){
     this.authService.logout();
     window.location.href = '/login';
+    this.requestService.postService("logout", {}).subscribe({
+      next: (response) => {
+        console.log(response);
+
+      }
+    });
+    // console.log();
+
     // this.router.navigate(['login']);
     // this.authService.logout().subscribe((response) => {
     //   console.log(response);

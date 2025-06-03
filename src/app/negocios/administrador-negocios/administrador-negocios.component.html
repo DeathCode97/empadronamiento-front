@@ -1,6 +1,6 @@
 <div class="card">
   <p-toast />
-  <p-contextMenu #cm [model]="opcionesNegocio" ></p-contextMenu>
+  <p-contextMenu  #cm [model]="opcionesNegocio" ></p-contextMenu>
   <p-table #dt2
   [value]="negocios"
   dataKey="folio_negocio"
@@ -19,7 +19,7 @@
           </p-inputicon>
           <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
           &nbsp;
-          <p-button icon="pi pi-plus" (onClick)="insertarNegocio()" severity="success" pTooltip="Agregar nuevo negocio"/>
+          <p-button *ngIf="usuarioAutenticado" icon="pi pi-plus" (onClick)="insertarNegocio()" severity="success" pTooltip="Agregar nuevo negocio"/>
         </p-iconfield>
       </div>
     </ng-template>
@@ -31,11 +31,14 @@
           <th class="center-content">DIRECCION</th>
           <th class="center-content">ES AMBULANTE</th>
           <th class="center-content">PROPIETARIO</th>
+          <th class="center-content">REVISION DE P.C.</th>
+          <!-- <th class="center-content">PROPIETARIO</th> -->
       </tr>
     </ng-template>
-    <ng-template #body let-negocio>
-      <tr class="highlight-row"  [pContextMenuRow]="negocio">
-        <td class="center-content">{{ negocio.folio_negocio }}</td>
+
+    <ng-template *ngIf="userLogged === 'PROTECCION CIVIL'" #body let-negocio>
+      <tr *ngIf="!negocio.es_ambulante" class="highlight-row"  [pContextMenuRow]="negocio">
+        <td class="center-content" ngClass="">{{ negocio.folio_negocio }}</td>
         <td class="center-content">{{ negocio.nombre_negocio }}</td>
         <td class="center-content">{{ negocio.nombre_giro }}</td>
         <td class="center-content">{{ negocio.direccion }}</td>
@@ -43,7 +46,45 @@
          <td class="center-content">
           <p-tag [value]="negocio.es_ambulante == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_ambulante)" />
          </td>
-        <td class="center-content">{{ negocio.nombre_propietario }}</td>
+        <!-- <td class="center-content">{{ negocio.nombre_propietario }}</td> -->
+        <td class="center-content">
+          {{ negocio.nombre_propietario }}
+          <!-- {{ negocio.es_negocio_nuevo }} -->
+          <!-- <p-tag [value]="negocio.es_negocio_nuevo == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_negocio_nuevo)" /> -->
+        </td>
+        <td class="center-content">
+          <p-tag *ngIf="negocio.es_ambulante" value="NO APLICA" severity="warn" />
+
+
+          <p-tag *ngIf="!negocio.es_ambulante" [value]="negocio.revision_proteccion_civil == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.revision_proteccion_civil)" />
+          <!-- {{ negocio.revision_proteccion_civil }} -->
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template *ngIf="userLogged === 'HACIENDA'" #body let-negocio>
+      <tr class="highlight-row"  [pContextMenuRow]="negocio">
+        <td class="center-content" ngClass="">{{ negocio.folio_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_giro }}</td>
+        <td class="center-content">{{ negocio.direccion }}</td>
+        <!-- <td class="center-content">{{ negocio.es_ambulante }}</td> -->
+         <td class="center-content">
+          <p-tag [value]="negocio.es_ambulante == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_ambulante)" />
+         </td>
+        <!-- <td class="center-content">{{ negocio.nombre_propietario }}</td> -->
+        <td class="center-content">
+          {{ negocio.nombre_propietario }}
+          <!-- {{ negocio.es_negocio_nuevo }} -->
+          <!-- <p-tag [value]="negocio.es_negocio_nuevo == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_negocio_nuevo)" /> -->
+        </td>
+        <td class="center-content">
+          <p-tag *ngIf="negocio.es_ambulante" value="NO APLICA" severity="warn" />
+
+
+          <p-tag *ngIf="!negocio.es_ambulante" [value]="negocio.revision_proteccion_civil == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.revision_proteccion_civil)" />
+          <!-- {{ negocio.revision_proteccion_civil }} -->
+        </td>
       </tr>
     </ng-template>
   </p-table>
