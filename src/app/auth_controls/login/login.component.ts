@@ -27,7 +27,8 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   // standalone: true,
   providers: [MessageService, Router],
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  standalone: true
 })
 export default class LoginComponent {
   email: string | any;
@@ -46,6 +47,7 @@ export default class LoginComponent {
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('userAuth', data.info_session.name)
+
         // this.router.navigate(['inicio']).then(window.location.reload);
         window.location.href = '/inicio'
       },

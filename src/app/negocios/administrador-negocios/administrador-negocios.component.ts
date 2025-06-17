@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { MenuModule } from 'primeng/menu';
 // import jwtDecode from '';
+import { Router } from '@angular/router';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
 import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detalles-negocio.component"
@@ -77,11 +78,12 @@ export default class AdministradorNegociosComponent {
   usuarioAutenticado: boolean | undefined;
   userLogged: any = '';
 
+
   constructor(
     private requestService: ConsumeapiService,
     public dialogService: DialogService,
     private messageService: MessageService,
-
+    private router: Router
   ){}
 
   ngOnInit(){
@@ -147,6 +149,10 @@ export default class AdministradorNegociosComponent {
     const decodedToken: any = token ? jwtDecode(token) : null;
     console.log(decodedToken?.role);
 
+  }
+
+  escanearNegocio(){
+    this.router.navigate(['/negocioqr']);
   }
 
   obetenerImagenQr(negocio: any){

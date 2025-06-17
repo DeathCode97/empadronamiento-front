@@ -1,0 +1,88 @@
+<div class="max-w-7xl mx-auto p-4">
+  <!-- Barra de búsqueda -->
+  <div class="flex items-center gap-2 mb-4">
+    <!-- <p-inputText [(ngModel)]="searchTerm" placeholder="Buscar negocio..." class="w-full p-2 border rounded-md" /> -->
+    <!-- <input type="text" pInputText [(ngModel)]="searchTerm" /> -->
+    <p-input-number #folioInput
+                    (onBlur)="validateInput(folioInput)"
+                    [useGrouping]="false"
+                    [maxFractionDigits]="0"
+                    [minFractionDigits]="0"
+                    [(ngModel)]="searchTerm"
+                    [style]="{ 'width' : '300px' }"
+                    class="font-bold"
+                    [showButtons]="false"
+                    mode="decimal"
+                    maxlength="10"/>
+    <p-button icon="pi pi-search"  class="p-button-primary" (onClick)="buscar()"></p-button>
+    <p-button icon="pi pi-qrcode" (onClick)="abrirEscannerQr()" severity="info" pTooltip="Escanear negocio"/>
+  </div>
+
+  <!-- Formulario -->
+  <div class="bg-white shadow-md rounded-lg p-6" *ngIf="mostrarContenido">
+    <h2 class="text-xl font-semibold mb-4">Información del Negocio </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngIf="!esAmbulante">
+      <div>
+        <label class="block text-sm font-medium">Nombre del negocio</label>
+        <label for="">{{nombreNegocio}}</label>
+        <!-- <p-inputText [(ngModel)]="business.name" class="w-full" /> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Folio del negocio: </label>
+        <label for="">{{folioNegocio}}</label>
+        <!-- <p-inputText [(ngModel)]="business.folio" class="w-full" /> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Dirección: </label>
+        <label for="">{{direccion}}</label>
+        <!-- <p-inputText [(ngModel)]="business.address" class="w-full" /> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Número telefónico negocio: </label>
+        <label for="">{{numeroTelefonicoNegocio}}</label>
+        <!-- <p-inputText [(ngModel)]="business.phone" class="w-full" /> -->
+      </div><div>
+        <label class="block text-sm font-medium">Fecha de registro: </label>
+        <label for="">{{fechaRegistro}}</label>
+      </div>
+      <div>
+        <label class="block text-sm font-medium">¿Cuenta con revisión de P.C.? </label>
+        <label for="">{{revisionProteccion_civil ? 'Si' : 'No'}}</label>
+        <!-- <p-inputText [(ngModel)]="business.owner" class="w-full" /> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">¿Es un negocio nuevo?</label>
+        <label for="">{{esNegocioNuevo ? 'Si' : 'No'}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.hasAds" binary="true"></p-checkbox> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Fecha de pago de servicios: </label>
+        <label for="">{{fechaPagoServicios === null ? 'No Pagado' : 'fechaPagoServicios'}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.sellsAlcohol" binary="true"></p-checkbox> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Nombre del Propietario: </label>
+        <label for="">{{nombrePropietario}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.sellsAlcohol" binary="true"></p-checkbox> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Numero de telefono del propietario: </label>
+        <label for="">{{numeroTelefonico}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.sellsAlcohol" binary="true"></p-checkbox> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Actividad economica del negocio: </label>
+        <label for="">{{nombreActividad}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.sellsAlcohol" binary="true"></p-checkbox> -->
+      </div>
+      <div>
+        <label class="block text-sm font-medium">Giro del negocio: </label>
+        <label for="">{{nombreGiro}}</label>
+        <!-- <p-checkbox [(ngModel)]="business.sellsAlcohol" binary="true"></p-checkbox> -->
+      </div>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <button pButton label="Guardar" icon="pi pi-save" class="p-button-success"></button>
+    </div>
+  </div>
+</div>

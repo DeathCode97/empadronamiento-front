@@ -20,6 +20,8 @@
           <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
           &nbsp;
           <p-button *ngIf="usuarioAutenticado" icon="pi pi-plus" (onClick)="insertarNegocio()" severity="success" pTooltip="Agregar nuevo negocio"/>
+          &nbsp;
+          <!-- <p-button  icon="pi pi-qrcode" (onClick)="escanearNegocio()" severity="info" pTooltip="Escanear negocio"/> -->
         </p-iconfield>
       </div>
     </ng-template>

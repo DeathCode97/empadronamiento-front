@@ -54,6 +54,11 @@ export const routes: Routes = [
       ]
     },
     {
+        path: "negocioqr",
+        loadComponent: () => import('./negocios/administrador-negocios/informacion-negocio-qr/informacion-negocio-qr.component'),
+        canActivate: [authGuard]
+    },
+    {
       path: "",
       redirectTo: 'inicio',
       pathMatch: 'full',
