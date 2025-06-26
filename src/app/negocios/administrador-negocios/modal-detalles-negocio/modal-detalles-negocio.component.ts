@@ -64,7 +64,9 @@ export default class ModalDetallesNegocioComponent {
   observacion1: string | undefined;
   observacion2: string | undefined;
   fechaRevisionPc: string | undefined;
-
+  estatusDePago: boolean | undefined;
+  fechaPago: string | undefined;
+  tipoPagoAmbulante: string | undefined;
   dataNegocio: ServiciosNegocio[] = [];
   // data: any;
   isAccordionLoaded: boolean = false;
@@ -75,7 +77,7 @@ export default class ModalDetallesNegocioComponent {
   ){}
 
   ngOnInit(){
-    // console.log(this.data);
+    console.log(this.config.data);
 
     this.direccion = this.config.data?.infoNegocio.direccion;
     this.esAmbulante = this.config.data?.infoNegocio.es_ambulante;
@@ -88,8 +90,12 @@ export default class ModalDetallesNegocioComponent {
     this.numeroTelefonicoNegocio = this.config.data?.infoNegocio.numero_telefonico_negocio
     this.numeroTelefonicoPropietario = this.config.data?.infoNegocio.numero_telefonico_propietario
     this.esAmbulante = this.config.data?.infoNegocio.es_ambulante;
+    this.estatusDePago = this.config.data?.infoNegocio.estatus_pago_servicios;
+    this.fechaPago = this.config.data?.infoNegocio.fecha_pago_servicios;
+    this.tipoPagoAmbulante = this.config.data?.infoNegocio.tipo_pago;
     // this.consultarServicios(this.folioNegocio);
     this.consultarRevisionPc(this.folioNegocio);
+
   }
 
   consultarRevisionPc(idNegocio: number){

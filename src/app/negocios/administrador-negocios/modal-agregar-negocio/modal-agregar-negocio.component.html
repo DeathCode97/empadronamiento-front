@@ -213,7 +213,7 @@
     </p-step-panels>
 </p-stepper>
 </div> -->
-
+<p-toast />
 <div class="flex flex-col h-48">
     <div>
       <div class="card grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -249,6 +249,18 @@
           <p-checkbox [(ngModel)]="esAmbulante" (ngModelChange)="onFieldChange()" [binary]="true" />
           <!-- <input pInputNumber [showButtons]="false" type="number" maxlength="10" [(ngModel)]="numero_telefonico" [style]="{ 'width' : '300px' }" class="font-bold" /> -->
           <small id="username-help">Seleccione: si | no</small>
+        </div>
+
+        <div *ngIf="esAmbulante" class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Cuota de ambulantaje:</label>
+          <!-- <p-checkbox [(ngModel)]="esAmbulante" (ngModelChange)="onFieldChange()" [binary]="true" /> -->
+          <p-inputnumber [(ngModel)]="cuota" inputId="currency-us" mode="currency" currency="USD" locale="en-US" />
+          <small id="username-help">Ingrese una cantidad</small>
+        </div>
+        <div *ngIf="esAmbulante" class="flex flex-col gap-2" style="width: 50%;">
+          <label for="username">Tipo de pago:</label>
+           <p-select [options]="tipoPagos" [style]="{ 'width': '150%' }" [(ngModel)]="pagoSeleccionado" optionLabel="nombreTipo" placeholder="Seleccione un tipo de pago" class="w-full md:w-56" />
+          <small id="username-help">Seleccione diario, semanal o mensual</small>
         </div>
         <div class="flex flex-col gap-2" style="width: 50%;">
           <label for="username">Propietario</label>

@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { MenuModule } from 'primeng/menu';
 // import jwtDecode from '';
+
 import { Router } from '@angular/router';
 // import { ConfirmationService, MessageService } from 'primeng/api';
 import ModalAgregarServiciosComponent from "./modal-agregar-servicios/modal-agregar-servicios.component"
@@ -55,6 +56,7 @@ import { Negocio } from "../interfaces/Negocio"
     ToastModule,
     TooltipModule,
     // Message,
+    ConfirmDialog,
     CommonModule
   ],
   standalone: true,
@@ -83,7 +85,8 @@ export default class AdministradorNegociosComponent {
     private requestService: ConsumeapiService,
     public dialogService: DialogService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService
   ){}
 
   ngOnInit(){
@@ -99,6 +102,11 @@ export default class AdministradorNegociosComponent {
           command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
         },
         {
+          label: "Pagar",
+          icon: "pi pi-fw pi-money-bill",
+          command: () => this.pagarCuotaNegocio(this.negocioSeleccionado)
+        },
+        {
           label: "Editar negocio",
           icon: "pi pi-fw pi-file-edit",
           command: () => this.abrirModalEditarNegocio(this.negocioSeleccionado)
@@ -112,8 +120,8 @@ export default class AdministradorNegociosComponent {
         {
           label: "Eliminar Negocio",
           icon: "pi pi-fw pi-trash",
-          command: () => console.log("")
-        }
+          command: () => this.eliminarNegocio(this.negocioSeleccionado)
+        },
       ]
     }
     else if(this.userLogged === 'PROTECCION CIVIL'){
@@ -136,6 +144,76 @@ export default class AdministradorNegociosComponent {
 
     this.obtenerNegociosPropietarios();
     // this.validarRol();
+  }
+
+  pagarCuotaNegocio(negocio: any){
+    // if(negocio){}
+    this.confirmationService.confirm({
+      message: `Generar pago para : ${negocio.nombre_negocio}?`,
+      header: 'Confirmación',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+          label: 'Cancel',
+          severity: 'secondary',
+          outlined: true,
+      },
+      acceptButtonProps: {
+          label: 'Pagar',
+      },
+      accept: () => {
+          this.requestService.postService("registrarPagoNegocio", {folioNegocio: parseInt(negocio.folio_negocio)}).subscribe({
+          next: (response) => {
+            if(response.status === "success"){
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Pago generado con exito' });
+              this.obtenerNegociosPropietarios();
+            }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+            }
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }
+    })
+  }
+
+  eliminarNegocio(negocio: any){
+    console.log("axia");
+
+    this.confirmationService.confirm({
+      message: `¿Estas seguro de querer eliminar a: ${negocio.nombre_negocio}?`,
+      header: 'Confirmación',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+          label: 'Cancel',
+          severity: 'secondary',
+          outlined: true,
+      },
+      acceptButtonProps: {
+          label: 'Eliminar',
+      },
+      accept: () => {
+          this.requestService.postService("eliminarNegocio", {folioNegocio: parseInt(negocio.folio_negocio)}).subscribe({
+          next: (response) => {
+            if(response.status === "success"){
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con exito' });
+              this.obtenerNegociosPropietarios();
+            }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+            }
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }
+    });
+
   }
 
   setMenuOptionsPc(rowData: any){

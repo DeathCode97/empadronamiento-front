@@ -14,6 +14,7 @@ import { ActividadEconomica } from "../../../interfaces/ActividadEconmica"
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import {DynamicDialogRef} from 'primeng/dynamicdialog';
+import { TipoPago } from '../../../interfaces/negocios/TipoPago';
 
 @Component({
   selector: 'app-modal-editar-negocio',
@@ -51,7 +52,13 @@ export default class ModalEditarNegocioComponent {
   actividadEncontrada: any;
   propietarioEncontrado: any;
   formChanged: boolean = false;
+  // tipoPagos: string | undefined;
+  tipoPagos: TipoPago[] | undefined;
+  pagoSeleccionado: TipoPago | undefined;
+  cuota: number | undefined;
 
+  cuotaOriginal: number | undefined;
+  tipoPagoOriginal: string | undefined;
 
   constructor(
     public config: DynamicDialogConfig,
@@ -60,16 +67,36 @@ export default class ModalEditarNegocioComponent {
   ){}
 
   ngOnInit(){
-    // console.log(this.config.data.infoNegocio);
+    console.log(this.config.data.infoNegocio);
     this.direccion = this.config.data.infoNegocio?.direccion;
     this.esAmbulante = this.config.data.infoNegocio?.es_ambulante;
     this.actividadEconomica = this.config.data.infoNegocio?.nombre_actividad;
     this.nombreNegocio = this.config.data.infoNegocio?.nombre_negocio;
     this.propietario = this.config.data.infoNegocio?.nombre_propietario;
     this.numeroTelefonicoNegocio = this.config.data.infoNegocio?.numero_telefonico_negocio;
-    this.idNegocio = this.config.data.infoNegocio?.folio_negocio
+    this.idNegocio = this.config.data.infoNegocio?.folio_negocio;
+    this.cuotaOriginal = this.config.data.infoNegocio?.cuota_ambulantaje;
+    this.tipoPagoOriginal = this.config.data.infoNegocio?.tipo_pago;
     this.obtenerPropietarios()
     this.obtenerActividadesEconomicas()
+    this.tipoPagos = [
+      {
+        "nombreTipo": "Anual",
+        "codigo": "A",
+      },
+      {
+        "nombreTipo": "Mensual",
+        "codigo": "M",
+      },
+      {
+        "nombreTipo": "Semanal",
+        "codigo": "S",
+      },
+      {
+        "nombreTipo": "Diario",
+        "codigo": "D",
+      }
+    ];
   }
 
   obtenerPropietarios(){
@@ -90,6 +117,8 @@ export default class ModalEditarNegocioComponent {
       }
     })
   }
+
+
 
   actualizarNegocio(){
     // console.log(this.nombreNegocio);

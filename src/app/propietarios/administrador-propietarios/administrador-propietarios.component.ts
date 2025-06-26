@@ -199,7 +199,7 @@ export default class AdministradorPropietariosComponent {
           label: 'Eliminar',
       },
       accept: () => {
-        this.requestService.postService("eliminarPropietario", {idPropietario: propietario.folio_propietario}).subscribe({
+        this.requestService.postService("eliminarPropietarioSoft", {idPropietario: propietario.folio_propietario}).subscribe({
           next: (response) => {
             if(response.status == "success"){
               this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Eliminado con exito' });

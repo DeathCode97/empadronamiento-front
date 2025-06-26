@@ -90,12 +90,45 @@
             </p-accordion-content>
        </p-accordion-panel>
 
-       <p-accordion-panel value="2">
+       <p-accordion-panel value="2" *ngIf="!esAmbulante">
            <p-accordion-header class="highlight-row">Estatus de pago</p-accordion-header>
            <p-accordion-content>
-               <!-- contenido -->
+            <div  class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Fecha de pago:</label>
+                    <p class="text-gray-600">{{ fechaPago === null ? 'Sin fecha de pago' : (fechaPago | date:'dd/MM/yyyy') }}</p>
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Estatus de pago:</label>
+                    <p-message severity="{{ estatusDePago === true ? 'success' : 'error' }}">{{ estatusDePago === true ? 'PAGADO' : 'NO PAGADO' }}</p-message>
+                    <!-- <p class="text-gray-600">{{ estatusDePago === true ? 'PAGADO' : 'NO PAGADO' }} </p> -->
+                </div>
+            </div>
            </p-accordion-content>
        </p-accordion-panel>
+
+        <p-accordion-panel value="2" *ngIf="esAmbulante">
+           <p-accordion-header class="highlight-row">Estatus de pago</p-accordion-header>
+           <p-accordion-content>
+            <div  class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Fecha de pago:</label>
+                    <p class="text-gray-600">{{ fechaPago === null ? 'Sin fecha de pago' : (fechaPago | date:'dd/MM/yyyy') }}</p>
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Estatus de pago:</label>
+                    <p-message severity="{{ estatusDePago === true ? 'success' : 'error' }}">{{ estatusDePago === true ? 'PAGADO' : 'NO PAGADO' }}</p-message>
+                    <!-- <p class="text-gray-600">{{ estatusDePago === true ? 'PAGADO' : 'NO PAGADO' }} </p> -->
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-gray-700">Tipo de pago:</label>
+                    <!-- <p-message severity="{{ estatusDePago === true ? 'success' : 'error' }}">{{ estatusDePago === true ? 'PAGADO' : 'NO PAGADO' }}</p-message> -->
+                    <p class="text-gray-600">{{tipoPagoAmbulante}} </p>
+                </div>
+            </div>
+           </p-accordion-content>
+       </p-accordion-panel>
+
    </p-accordion>
 </div>
 

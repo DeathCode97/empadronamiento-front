@@ -8,6 +8,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputNumber } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { ListadoPropietarios } from '../../../propietarios/interfaces/Propietarios';
+import { TipoPago } from '../../../interfaces/negocios/TipoPago';
 import { ActividadEconomica } from "../../../interfaces/ActividadEconmica"
 import { Checkbox } from 'primeng/checkbox';
 import { SelectModule } from 'primeng/select';
@@ -64,6 +65,8 @@ export default class ModalAgregarNegocioComponent {
   formChanged: boolean = false;
   jsonEntidades: any;
 
+  tipoPagos: TipoPago[] | undefined;
+  pagoSeleccionado: TipoPago | undefined;
   serviciosPc: Servicio[] = [];
   serviciosLicSuelo: Servicio[] = [];
   serviciosBebidas: Servicio[] = [];
@@ -83,6 +86,9 @@ export default class ModalAgregarNegocioComponent {
   pagoRevisionProteccionCivil: string | undefined;
   pagoLicenciaBebidasAlc: string |undefined;
   pagoLicenciaPublicidad: string | undefined;
+
+  cuota: number | undefined;
+  // tipoDePago: string | undefined;
 
   //
   // proteccionCivil: any[] = [];
@@ -107,6 +113,24 @@ export default class ModalAgregarNegocioComponent {
     this.obtenerActividadesEconomicas();
     this.obtenerServiciosTodos();
     // this.insertarNegocio();
+    this.tipoPagos = [
+      {
+        "nombreTipo": "Anual",
+        "codigo": "A",
+      },
+      {
+        "nombreTipo": "Mensual",
+        "codigo": "M",
+      },
+      {
+        "nombreTipo": "Semanal",
+        "codigo": "S",
+      },
+      {
+        "nombreTipo": "Diario",
+        "codigo": "D",
+      }
+    ]
   }
 
   // CREAMOS EL FORMULARIO
@@ -141,7 +165,8 @@ export default class ModalAgregarNegocioComponent {
         numeroTelefonicoNegocio: this.telefonoNegocio?.toString(),
         vendeAlcohol: this.chkBebidas === true ? 1 : 0,
         tienePublicidad: this.chkPublicidad === true ? 1 : 0,
-
+        tipoPago: this.pagoSeleccionado?.nombreTipo,
+        cuotaDePago: this.cuota
       };
       console.log(dataNegocio);
 
@@ -163,13 +188,7 @@ export default class ModalAgregarNegocioComponent {
         actividadEconomica: this.actividadSeleccionada?.id_actividad,
         numeroTelefonicoNegocio: this.telefonoNegocio?.toString(),
         vendeAlcohol: this.chkBebidas === true ? 1 : 0,
-        tienePublicidad: this.chkPublicidad === true ? 1 : 0,
-        servicios: [
-          this.servicioLicSueloSeleccionado?.id_servicio == undefined ? 0 : this.servicioLicSueloSeleccionado?.id_servicio,
-          this.servicioPcSeleccionado?.id_servicio == undefined ? 0 : this.servicioPcSeleccionado?.id_servicio,
-          this.servicioBebidaSeleccionado?.id_servicio == undefined ? 0 : this.servicioBebidaSeleccionado?.id_servicio,
-          this.servicioPublicidadSeleccionado?.id_servicio == undefined ? 0 : this.servicioPublicidadSeleccionado?.id_servicio
-        ]
+        tienePublicidad: this.chkPublicidad === true ? 1 : 0
       };
       console.log(dataNegocio);
 
@@ -219,7 +238,6 @@ export default class ModalAgregarNegocioComponent {
       }
     })
   }
-
 
 
   onFieldChange() {

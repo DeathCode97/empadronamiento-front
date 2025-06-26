@@ -1,3 +1,4 @@
+import { TipoPago } from './../../interfaces/negocios/TipoPago';
 export interface Negocio{
   folioNegocio: number,
   nombreNegocio: string,
@@ -10,5 +11,7 @@ export interface Negocio{
   nombreActividad: string,
   nombreGiro: string,
   esNegocioNuevo: boolean,
-  revisionProteccionCivil: boolean
+  revisionProteccionCivil: boolean,
+  tipoPago: string,
+  cuotaDeAmbulantaje: number
 }
