@@ -13,5 +13,6 @@ export interface Negocio{
   esNegocioNuevo: boolean,
   revisionProteccionCivil: boolean,
   tipoPago: string,
-  cuotaDeAmbulantaje: number
+  cuotaDeAmbulantaje: number,
+  revisionPcAutorizada: boolean
 }

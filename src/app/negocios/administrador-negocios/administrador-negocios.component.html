@@ -28,11 +28,23 @@
     </ng-template>
     <ng-template #header>
       <tr >
-          <th class="center-content">FOLIO NEGOCIO</th>
-          <th class="center-content">NOMBRE NEGOCIO</th>
+          <th class="center-content" >
+            FOLIO NEGOCIO
+          </th>
+          <th class="center-content"  pSortableColumn="nombre_negocio" style="width:20%">
+            <div class="flex items-center gap-2">
+              NOMBRE NEGOCIO
+              <p-sortIcon field="code" />
+            </div>
+          </th>
           <th class="center-content">GIRO COMERCIAL</th>
           <th class="center-content">DIRECCION</th>
-          <th class="center-content">ES AMBULANTE</th>
+          <th class="center-content" pSortableColumn="es_ambulante" style="width:20%">
+            <div class="flex items-center gap-2">
+              ES AMBULANTE
+              <p-sortIcon field="code" />
+            </div>
+          </th>
           <th class="center-content">PROPIETARIO</th>
           <th class="center-content">REVISION DE P.C.</th>
           <!-- <th class="center-content">PROPIETARIO</th> -->
@@ -41,6 +53,32 @@
 
     <ng-template *ngIf="userLogged === 'PROTECCION CIVIL'" #body let-negocio>
       <tr *ngIf="!negocio.es_ambulante" class="highlight-row"  [pContextMenuRow]="negocio">
+        <td class="center-content" ngClass="">{{ negocio.folio_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_negocio }}</td>
+        <td class="center-content">{{ negocio.nombre_giro }}</td>
+        <td class="center-content">{{ negocio.direccion }}</td>
+        <!-- <td class="center-content">{{ negocio.es_ambulante }}</td> -->
+         <td class="center-content">
+          <p-tag [value]="negocio.es_ambulante == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_ambulante)" />
+         </td>
+        <!-- <td class="center-content">{{ negocio.nombre_propietario }}</td> -->
+        <td class="center-content">
+          {{ negocio.nombre_propietario }}
+          <!-- {{ negocio.es_negocio_nuevo }} -->
+          <!-- <p-tag [value]="negocio.es_negocio_nuevo == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.es_negocio_nuevo)" /> -->
+        </td>
+        <td class="center-content">
+          <p-tag *ngIf="negocio.es_ambulante" value="NO APLICA" severity="warn" />
+
+
+          <p-tag *ngIf="!negocio.es_ambulante" [value]="negocio.revision_proteccion_civil == true ? 'Si' : 'No'" [severity]="getSeverity(negocio.revision_proteccion_civil)" />
+          <!-- {{ negocio.revision_proteccion_civil }} -->
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template *ngIf="userLogged === 'INDUSTRIA Y COMERCIO'" #body let-negocio>
+      <tr class="highlight-row"  [pContextMenuRow]="negocio">
         <td class="center-content" ngClass="">{{ negocio.folio_negocio }}</td>
         <td class="center-content">{{ negocio.nombre_negocio }}</td>
         <td class="center-content">{{ negocio.nombre_giro }}</td>

@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
   standalone: true
 })
 export default class LoginComponent {
-  email: string | any;
+  username: string | any;
   password: string | any;
 
   constructor(
@@ -41,12 +41,14 @@ export default class LoginComponent {
   ) {}
 
   onSubmit(): void {
-    this.authService.login({ email: this.email, password: this.password }).subscribe({
+    this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: (data) => {
-        console.log(data.info_session.name);
+        // console.log(data.info_session.name);
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('userAuth', data.info_session.name)
+        localStorage.setItem('role', data.info_session.rol);
+        localStorage.setItem('username', data.info_session.username);
 
         // this.router.navigate(['inicio']).then(window.location.reload);
         window.location.href = '/inicio'

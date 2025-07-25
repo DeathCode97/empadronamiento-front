@@ -48,7 +48,10 @@ export class AppComponent {
 
     //   this.messageService.add({ severity: 'success', summary: 'Nuevo dato', detail: `Se insertó:` });
     // });
-    this.userLogged = localStorage.getItem('userAuth');
+    this.nombreUser = localStorage.getItem('username');
+    this.userLogged = localStorage.getItem('role');
+    console.log(this.userLogged);
+
     this.consultarNotificacionesPorPerfil();
     // console.log(localStorage.getItem('userAuth'));
 
@@ -59,7 +62,7 @@ export class AppComponent {
        if(data.para === this.userLogged){
         // console.log(data.newData);
         // this.consultarNotificacionesPorPerfil();
-        this.messageService.add({ severity: 'success', summary: 'Nuevo dato', detail: `Se insertó: ${data.para}` });
+        this.messageService.add({ severity: 'success', summary: 'Nuevo dato', detail: `Se insertó: ${data.newData}` });
         this.consultarNotificacionesPorPerfil();
         this.cargarRutas();
       }
@@ -68,7 +71,7 @@ export class AppComponent {
 
     this.cargarRutas();
     this.estaAutenticado = this.authService.isAuthenticated();
-    this.nombreUser = localStorage.getItem('userAuth')
+
     // console.log(this.nombreUser);
   }
 
@@ -114,13 +117,14 @@ export class AppComponent {
 
   cargarRutas(){
     if(this.estaAutenticado){
-      switch (this.nombreUser) {
+      switch (this.userLogged) {
         case "HACIENDA":
           this.items = [
             {
               label: "Inicio",
               routerLink: "/inicio",
               icon: 'pi pi-home',
+              badge: this.notificaciones.length.toString()
             },
             {
               label: "Negocios",
@@ -140,12 +144,12 @@ export class AppComponent {
                 }
               ]
             },
-            {
-              label: "",
-              badge: this.notificaciones.length.toString(),
-              icon: "pi pi-bell",
-              items: this.notificaciones.map(n => ({ label: n.label }))
-            }
+            // {
+            //   label: "",
+            //   badge: this.notificaciones.length.toString(),
+            //   icon: "pi pi-bell",
+            //   items: this.notificaciones.map(n => ({ label: n.label }))
+            // }
           ];
           break;
         case "PROTECCION CIVIL":
@@ -183,8 +187,32 @@ export class AppComponent {
               label: "Escaner QR",
               routerLink: "/negocioqr",
             }
-          ]
-
+          ];
+          break;
+        case "INDUSTRIA Y COMERCIO":
+           this.items = [
+            {
+              label: "Inicio",
+              routerLink: "/inicio",
+              icon: 'pi pi-home',
+            },
+            {
+              label: "Negocios",
+              items: [
+                {
+                  label: "Administrador",
+                  routerLink: "/negocios/administrador"
+                }
+              ]
+            },
+            {
+              label: "",
+              badge: this.notificaciones.length.toString(),
+              icon: "pi pi-bell",
+              items: this.notificaciones.map(n => ({ label: n.label }))
+            }
+          ];
+          break
       }
     }
 

@@ -32,6 +32,7 @@ import ModalDetallesNegocioComponent from "./modal-detalles-negocio/modal-detall
 import ModalEditarNegocioComponent from "./modal-editar-negocio/modal-editar-negocio.component"
 import ModalAgregarNegocioComponent from "./modal-agregar-negocio/modal-agregar-negocio.component"
 import ModalGenerarQrComponent from "./modal-generar-qr/modal-generar-qr.component"
+import ModalEditarProteccionComponent from "./modal-editar-proteccion/modal-editar-proteccion.component"
 
 // Interfaces
 import { Negocio } from "../interfaces/Negocio"
@@ -76,9 +77,11 @@ export default class AdministradorNegociosComponent {
   modalAsignarServicios: DynamicDialogRef | undefined;
   modalAgregarNegocio: DynamicDialogRef | undefined;
   modalGenerarQr: DynamicDialogRef | undefined;
+  moldalEditarPc: DynamicDialogRef | undefined;
   negocioSeleccionado: Negocio | undefined;
   usuarioAutenticado: boolean | undefined;
   userLogged: any = '';
+  rol: any = '';
 
 
   constructor(
@@ -91,8 +94,8 @@ export default class AdministradorNegociosComponent {
 
   ngOnInit(){
 
-    this.userLogged = localStorage.getItem('userAuth');
-
+    this.userLogged = localStorage.getItem('role');
+    this.rol = localStorage.getItem('username');
     if(this.userLogged === 'HACIENDA'){
       this.usuarioAutenticado = true;
       this.opcionesNegocio = [
@@ -127,23 +130,129 @@ export default class AdministradorNegociosComponent {
     else if(this.userLogged === 'PROTECCION CIVIL'){
       this.usuarioAutenticado = false;
       // if()
-      this.opcionesNegocio = [
+      if(this.rol === 'adminpc'){
+        this.opcionesNegocio = [
+          {
+            label: "Asignar Revision de Proteccion civil",
+            icon: "pi pi-fw pi-plus-circle",
+            command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+          },
+          {
+            label: "Editar Revision de Proteccion civil",
+            icon: "pi pi-fw pi-file-edit",
+            command: () => this.abrirModalEditarPc(this.negocioSeleccionado)
+          },
+          {
+            label: "Autorizar Revision de Proteccion civil",
+            icon: "pi pi-fw pi-check",
+            command: () => this.autorizarRevision(this.negocioSeleccionado)
+          }
+        ]
+      }else if(this.rol === "auxpc"){
+        this.opcionesNegocio = [
+          {
+            label: "Asignar Revision de Proteccion civil",
+            icon: "pi pi-fw pi-plus-circle",
+            command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+          },
+          {
+            label: "Editar Revision de Proteccion civil",
+            icon: "pi pi-fw pi-file-edit",
+            command: () => this.abrirModalEditarPc(this.negocioSeleccionado)
+          },
+        ]
+      }
+
+    }else if(this.userLogged === 'INDUSTRIA Y COMERCIO'){
+      this.usuarioAutenticado = false;
+       this.opcionesNegocio = [
         {
-          label: "Asignar Revision de Proteccion civil",
-          icon: "pi pi-fw pi-plus-circle",
-          command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
+          label: "Ver detalles",
+          icon: "pi pi-fw pi-eye",
+          command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
         },
         {
-          label: "Editar Revision de Proteccion civil",
-          icon: "pi pi-fw pi-file-edit",
-          // command: () => this.abrirModalAsignarServicios(this.negocioSeleccionado)
-        }
+          label: "Generar QR",
+          icon: "pi pi-fw pi-qrcode",
+          command: () => this.obetenerImagenQr(this.negocioSeleccionado)
+
+        },
       ]
     }
 
 
     this.obtenerNegociosPropietarios();
     // this.validarRol();
+  }
+
+  autorizarRevision(negocio: any){
+    console.log(negocio);
+    // return ;
+    if(negocio.revision_proteccion_civil){
+      this.confirmationService.confirm({
+        message: `¿Autorizar revisión de P.C. para : ${negocio.nombre_negocio}?`,
+        header: 'Confirmación',
+        closable: true,
+        closeOnEscape: true,
+        icon: 'pi pi-exclamation-triangle',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Autorizar',
+        },
+        accept: () => {
+            this.requestService.postService("autorizarRevisionPc", {idNegocio: parseInt(negocio.folio_negocio)}).subscribe({
+            next: (response) => {
+              if(response.status === "success"){
+                this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Autorizado con exito' });
+                this.obtenerNegociosPropietarios();
+              }else{
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+              }
+            }
+          });
+        },
+        reject: () => {
+          this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+        }
+      });
+    }else{
+      this.messageService.add({ severity: 'warn', summary: 'Advertencia', detail: 'No se ha asignado una revisión', life: 3000 });
+    }
+  }
+
+  abrirModalEditarPc(negocio: any){
+    this.moldalEditarPc = this.dialogService.open(ModalEditarProteccionComponent, {
+      header: `Editar revision de protección civil a : ${negocio.nombre_negocio}`,
+      width: '50%',
+      height: '650px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000,
+      data:{
+        infoNegocio: negocio
+      }
+    });
+
+    this.moldalEditarPc.onClose.subscribe((response) => {
+      // console.log(response);
+      if(response){
+        // console.log("axia");
+        // console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Actualizado con exito' });
+          this.obtenerNegociosPropietarios();
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
+      }else{
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }
+    })
   }
 
   pagarCuotaNegocio(negocio: any){
@@ -359,7 +468,7 @@ export default class AdministradorNegociosComponent {
     this.requestService.postService("obtenerNegociosConPropietarios", {}).subscribe({
       next: (response) => {
         this.negocios = response.data;
-        // console.log(this.negocios);
+        console.log(this.negocios);
 
       }
     })

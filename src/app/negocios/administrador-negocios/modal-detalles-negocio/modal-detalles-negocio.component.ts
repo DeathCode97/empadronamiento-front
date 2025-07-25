@@ -68,6 +68,7 @@ export default class ModalDetallesNegocioComponent {
   fechaPago: string | undefined;
   tipoPagoAmbulante: string | undefined;
   dataNegocio: ServiciosNegocio[] = [];
+  revisionAutorizada: boolean | undefined;
   // data: any;
   isAccordionLoaded: boolean = false;
 
@@ -93,6 +94,9 @@ export default class ModalDetallesNegocioComponent {
     this.estatusDePago = this.config.data?.infoNegocio.estatus_pago_servicios;
     this.fechaPago = this.config.data?.infoNegocio.fecha_pago_servicios;
     this.tipoPagoAmbulante = this.config.data?.infoNegocio.tipo_pago;
+    this.revisionAutorizada = this.config.data?.infoNegocio.revision_pc_autorizada;
+    console.log(this.revisionAutorizada);
+
     // this.consultarServicios(this.folioNegocio);
     this.consultarRevisionPc(this.folioNegocio);
 

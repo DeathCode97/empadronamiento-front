@@ -12,11 +12,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AuthApiService {
 
-  private apiUrl = 'https://192.168.30.202:8443/api/login'; // URL de API Laravel
+  private apiUrl = 'https://192.168.191.7:81/api/login'; // URL de API Laravel
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(credentials: {email: string, password: string}): Observable<any>{
+  login(credentials: {username: string, password: string}): Observable<any>{
     return this.http.post(this.apiUrl, credentials);
   }
 

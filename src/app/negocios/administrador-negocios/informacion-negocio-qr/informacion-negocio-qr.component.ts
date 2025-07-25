@@ -15,7 +15,9 @@ import { NegocioQR } from "../../../interfaces/negocios/NegocioQR";
 import { CommonModule } from '@angular/common';
 import { ModalBusquedaQrComponent } from '../modal-busqueda-qr/modal-busqueda-qr.component'
 import { InputNumber } from 'primeng/inputnumber';
-
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+// import { ButtonLabel, ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-informacion-negocio-qr',
   imports: [
@@ -28,10 +30,14 @@ import { InputNumber } from 'primeng/inputnumber';
     TooltipModule,
     FormsModule,
     CommonModule,
-    InputNumber
+    InputNumber,
+    ConfirmDialog
   ],
   providers: [
-        DialogService,
+    DialogService,
+    DialogService,
+    ConfirmationService,
+    MessageService
   ],
   templateUrl: './informacion-negocio-qr.component.html',
   styleUrl: './informacion-negocio-qr.component.css'
@@ -62,6 +68,8 @@ export default class InformacionNegocioQrComponent {
   constructor(
     public dialogService: DialogService,
     private requestService: ConsumeapiService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService,
     // public ref: DynamicDialogRef
   ){}
 
@@ -109,7 +117,7 @@ export default class InformacionNegocioQrComponent {
   }
 
 
-  obtenerInfoNegocioQr(idNego: number){
+  obtenerInfoNegocioQr(idNego: any){
     this.requestService.postService("obtenerInformacionNegocioQR", {folioNegocio: idNego}).subscribe({
       next: (response) => {
         this.informacionNegocio = response.data;
@@ -132,6 +140,41 @@ export default class InformacionNegocioQrComponent {
         this.nombreActividad = this.informacionNegocio[0].nombre_actividad
         this.nombreGiro = this.informacionNegocio[0].nombre_giro;
         this.mostrarContenido = true;
+      }
+    })
+  }
+
+  pagarCuotaNegocio(){
+    // if(negocio){}
+    this.confirmationService.confirm({
+      message: `Generar pago para : ${this.nombreNegocio}?`,
+      header: 'Confirmación',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+          label: 'Cancel',
+          severity: 'secondary',
+          outlined: true,
+      },
+      acceptButtonProps: {
+          label: 'Pagar',
+      },
+      accept: () => {
+          this.requestService.postService("registrarPagoNegocio", {folioNegocio: this.folioNegocio}).subscribe({
+          next: (response) => {
+            if(response.status === "success"){
+              this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Pago generado con exito' });
+              this.obtenerInfoNegocioQr(this.folioNegocio);
+              // this.obtenerNegociosPropietarios();
+            }else{
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+            }
+          }
+        });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
       }
     })
   }

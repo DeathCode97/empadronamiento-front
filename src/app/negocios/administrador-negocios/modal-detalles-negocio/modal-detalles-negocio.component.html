@@ -51,13 +51,13 @@
             <p-accordion-header class="highlight-row" >Revision de proteccion civil</p-accordion-header>
             <p-accordion-content>
 
-              <p-card *ngIf="!revisionProteccionCivil">
+              <p-card *ngIf="!revisionAutorizada">
                 <div class="card flex flex-wrap gap-4 justify-center">
-                  <p-message>EL NEGOCIO NO CUENTA CON REVISION DE PROTECCION CIVIL</p-message>
+                  <p-message>EL NEGOCIO NO CUENTA CON REVISION DE PROTECCION CIVIL O NO HA SIDO AUTORIZADA</p-message>
                 </div>
               </p-card>
 
-              <p-card  *ngIf="revisionProteccionCivil">
+              <p-card  *ngIf="revisionAutorizada">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div class="flex flex-col">
                     <label class="font-bold text-gray-700">Direccion:</label>

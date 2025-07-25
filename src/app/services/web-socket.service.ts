@@ -7,7 +7,7 @@ import { io } from 'socket.io-client';
 })
 export class WebSocketService {
 
-  private socket = io('http://192.168.8.171:3000'); // Ajusta la URL si es necesario
+  private socket = io('https://192.168.191.7:3000'); // Ajusta la URL si es necesario
 
     onNewRecord(): Observable<any> {
     return new Observable(observer => {

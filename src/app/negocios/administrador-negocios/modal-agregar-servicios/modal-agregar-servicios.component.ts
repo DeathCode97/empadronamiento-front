@@ -1,3 +1,4 @@
+// import { licencia } from './../../../interfaces/servicios/LicenciaAlcohol';
 import { Component } from '@angular/core';
 // import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,6 +8,7 @@ import { Negocio } from "../../interfaces/Negocio"
 import { TableModule } from 'primeng/table';
 import { ChipModule } from 'primeng/chip';
 import { Tag } from 'primeng/tag'
+
 import { AccordionModule } from 'primeng/accordion';
 import { ServiciosNegocio } from "../../interfaces/Servicios"
 import { CheckboxModule } from 'primeng/checkbox';
@@ -23,6 +25,8 @@ import { StepperModule } from 'primeng/stepper';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
 import { MessageModule } from 'primeng/message';
+import { InputNumber } from 'primeng/inputnumber';
+import { licencia } from '../../../interfaces/servicios/LicenciaAlcohol'
 
 @Component({
   selector: 'app-modal-agregar-servicios',
@@ -37,7 +41,8 @@ import { MessageModule } from 'primeng/message';
     ToastModule,
     StepperModule,
     SelectModule,
-    MessageModule
+    MessageModule,
+    // InputNumber
   ],
   templateUrl: './modal-agregar-servicios.component.html',
   providers: [
@@ -52,10 +57,10 @@ export default class ModalAgregarServiciosComponent {
   selectedServices: any[] = [];
   formChanged: boolean = false;
   esAmbulante: boolean | undefined;
-
+  licenciasAlcohol: licencia [] | any;
   formulario!: FormGroup;
   dataNegocio: any | undefined;
-
+  licenciaSeleccionada: licencia | undefined
 
   nombreNegocio: string | undefined = '';
   numeroPropietario: string | undefined = '';
@@ -77,7 +82,35 @@ export default class ModalAgregarServiciosComponent {
 
 
   ngOnInit(){
-    console.log( localStorage.getItem('token'));
+    // console.log( localStorage.getItem('token'));
+    this.licenciasAlcohol = [
+      {licencia: 'Abarrotes, misceláneas y tendejones con venta de cerveza en botella cerrada'},
+      {licencia: 'Abarrotes, misceláneas y tendejones con venta de cerveza en botella abierta y/o bebidas alcohólicas al copeo'},
+      {licencia: 'Café-bar'},
+      {licencia: 'Carpa temporal para la venta de bebidas alcohólicas por día'},
+      {licencia: 'Bar'},
+      {licencia: 'Cantina'},
+      {licencia: 'Billar'},
+      {licencia: 'Baños públicos con venta de bebidas alcohólicas'},
+      {licencia: 'Cervecería	'},
+      {licencia: 'Clubes de servicio con restaurante bar'},
+      {licencia: 'Agencia o depósito de cerveza'},
+      {licencia: 'Discotecas'},
+      {licencia: 'Lonchería con venta de cerveza con alimentos'},
+      {licencia: 'Marisquería con venta de cervezas, vinos y licores con alimentos'},
+      {licencia: 'Pizzerías'},
+      {licencia: 'Pulquerías'},
+      {licencia: 'Restaurante con venta de vinos y licores con alimentos'},
+      {licencia: 'Restaurante con servicio de bar'},
+      {licencia: 'Salón de fiestas con venta de bebidas alcohólicas'},
+      {licencia: 'Supermercados con venta de cerveza, vinos y licores en botella cerrada'},
+      {licencia: 'Vídeo-bar o karaoke'},
+      {licencia: 'Vinatería y ultramarinos	'},
+      {licencia: 'Tiendas de autoservicio con venta de bebidas alcohólicas, vinos y licores en botella cerrada'},
+      {licencia: 'Peñas'},
+      {licencia: 'Cualquier otro establecimiento no señalado en el que se enajenen bebidas alcohólicas'},
+      {licencia: 'Cabarets o centros nocturnos'}
+    ];
 
     this.folioNegocio = parseInt(this.config.data?.infoNegocio.folio_negocio);
     this.tieneRevision = this.config.data?.infoNegocio.revision_proteccion_civil;
@@ -95,10 +128,13 @@ export default class ModalAgregarServiciosComponent {
       metrajeFrente: new FormControl('', [Validators.required]),
       metrajeLargo: new FormControl('', [Validators.required]),
       metrajeTotal: new FormControl('', [Validators.required]),
+      tieneAnuncio: new FormControl(false),
       tipoAnuncio: new FormControl(''),
       medidaFrenteAnuncio: new FormControl(''),
       medidaLargoAnuncio: new FormControl(''),
       metrajeAnuncioTotal: new FormControl(''),
+      vendeAlcohol: new FormControl(false),
+      tipoLicenciaAlcohol: new FormControl(''),
       observacion1: new FormControl(''),
       observacion2: new FormControl(''),
       nombrePropietario: new FormControl(''),
@@ -110,7 +146,37 @@ export default class ModalAgregarServiciosComponent {
       // telefono: new FormControl('', [Validators.required, Validators.pattern(/^\d{10}$/)]), // Teléfono de 10 dígitos
     });
 
+    this.multiplicar();
+    this.multiplicarAnuncio();
+
   }
+
+  multiplicar(){
+    this.formulario.valueChanges.subscribe(val => {
+      // console.log("hola", val);
+      const frente = parseFloat(val.metrajeFrente) || 0;
+      const largo = parseFloat(val.metrajeLargo) || 0;
+      const total = frente * largo;
+
+      this.formulario.get('metrajeTotal')?.setValue(total.toFixed(2), { emitEvent: false });
+
+
+    });
+  }
+
+  multiplicarAnuncio(){
+    this.formulario.valueChanges.subscribe(val => {
+      // console.log("hola", val);
+      const frente = parseFloat(val.medidaFrenteAnuncio) || 0;
+      const largo = parseFloat(val.medidaLargoAnuncio) || 0;
+      const total = frente * largo;
+
+      this.formulario.get('metrajeAnuncioTotal')?.setValue(total.toFixed(2), { emitEvent: false });
+
+
+    });
+  }
+
 
   cambiarEstadoAnuncio(event: any) {
     this.chkAnuncios = event.checked;
@@ -148,14 +214,20 @@ export default class ModalAgregarServiciosComponent {
 
     // console.log(this.formulario.value);
     let jsonActualizado = {...this.formulario.value, idNegocio: this.folioNegocio}
-    console.log(jsonActualizado);
+    // console.log(jsonActualizado);
+    const payload = {
+      ...jsonActualizado,
+      tieneAnuncio: this.formulario.value.tieneAnuncio ? 1 : 0,
+      vendeAlcohol: this.formulario.value.vendeAlcohol ? 1 : 0
+    };
+    console.log(payload);
 
 
     if (this.formulario.valid) {
-      // console.log("Datos enviados:", this.formulario.value);
-      this.requestService.postService("insertarRevisionPc", jsonActualizado).subscribe({
+      // console.log("Datos enviados:", this. formulario.value);
+      this.requestService.postService("insertarRevisionPc", payload).subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
         this.ref.close(response);
       }
     })
@@ -164,13 +236,6 @@ export default class ModalAgregarServiciosComponent {
     } else {
       // console.log("Formulario inválido. Revisa los campos.");
     }
-
-    // this.requestService.postService("insertarRevisionPc", {}).subscribe({
-    //   next: (response) => {
-    //     // this.negocios = response.data;
-    //     // console.log(this.negocios);
-    //   }
-    // })
 
   }
 

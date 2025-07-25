@@ -1,59 +1,31 @@
-<p-stepper [value]="1" class="basis-[50rem]" *ngIf="!tieneRevision">
+<p-stepper [value]="1" class="basis-[50rem]" *ngIf="tieneRevision">
     <p-step-list>
         <p-step [value]="1">Datos del negocio</p-step>
         <p-step [value]="2">Anuncio y venta de alcohol</p-step>
         <p-step [value]="3">Observaciones</p-step>
     </p-step-list>
-    <p-step-panels [formGroup]="formulario" (ngSubmit)="insertarRevisionDePc()">
+    <p-step-panels>
         <p-step-panel [value]="1">
             <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
                     <div >
                       <p-fieldset legend="Información del negocio">
-                        <div class="grid grid-cols-1 gap-4">
-                          <div class="flex flex-col gap-2">
-                            <label>Nombre del negocio:</label>
-                            <input pInputText formControlName="nombreNegocio" [placeholder]="nombreNegocio" (input)="convertirMayusculas('nombreNegocio')" class="p-inputtext w-full" />
-                          </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                          <div class="flex flex-col gap-2">
-                            <label>Nombre del responsable:</label>
-                            <input pInputText formControlName="nombrePropietario" [placeholder]="nombrePropietario" (input)="convertirMayusculas('nombrePropietario')" class="p-inputtext w-full" />
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <label>Numero del responsable:</label>
-                            <input pInputText formControlName="numeroPropietario" [placeholder]="numeroPropietario" class="p-inputtext w-full" />
-                          </div>
-                        </div>
                           <div class="grid grid-cols-2 gap-4">
                             <div class="flex flex-col gap-2">
                               <label>Calle:</label>
-                              <input pInputText  formControlName="calle" class="p-inputtext w-full" (input)="convertirMayusculas('calle')"/>
-                              <small *ngIf="formulario.get('calle')?.invalid && formulario.get('calle')?.touched">
-                                ⚠️ El campo calle es obligatorio.
-                              </small>
+                              <input type="text" pInputText [(ngModel)]="calle_n" class="p-inputtext w-full" (input)="calle_n = calle_n?.toUpperCase()"/>
                             </div>
                             <div class="flex flex-col gap-2">
                               <label>No:</label>
-                              <input pInputText  formControlName="numero" class="p-inputtext w-full" />
-                              <small *ngIf="formulario.get('numero')?.invalid && formulario.get('numero')?.touched">
-                                ⚠️ El numero es obligatorio.
-                              </small>
+                              <input pInputText  [(ngModel)]="numero_n" class="p-inputtext w-full" />
                             </div>
                             <div class="flex flex-col gap-2">
                               <label>Colonia:</label>
-                              <input pInputText  formControlName="colonia" class="p-inputtext w-full" (input)="convertirMayusculas('colonia')"/>
-                              <small *ngIf="formulario.get('colonia')?.invalid && formulario.get('colonia')?.touched">
-                                ⚠️ El colonia es obligatorio.
-                              </small>
+                              <input pInputText [(ngModel)]="colonia_n" class="p-inputtext w-full" (input)="colonia_n = colonia_n?.toUpperCase()"/>
                             </div>
                             <div class="flex flex-col gap-2">
                               <label>Municipio:</label>
-                              <input pInputText  formControlName="municipio" class="p-inputtext w-full" (input)="convertirMayusculas('municipio')"/>
-                              <small *ngIf="formulario.get('municipio')?.invalid && formulario.get('municipio')?.touched">
-                                ⚠️ El municipio es obligatorio.
-                              </small>
+                              <input pInputText [(ngModel)]="municipio_n" class="p-inputtext w-full" (input)="municipio_n = municipio_n?.toUpperCase()"/>
                             </div>
                           </div>
                         </p-fieldset>
@@ -62,24 +34,15 @@
                           <div class="grid grid-cols-3 gap-4">
                             <div class="flex flex-col gap-2">
                               <label>Frente (m):</label>
-                              <input pInputText type="number" formControlName="metrajeFrente" class="p-inputtext w-full" />
-                              <small *ngIf="formulario.get('metrajeFrente')?.invalid && formulario.get('metrajeFrente')?.touched">
-                                ⚠️ El metrajeFrente es obligatorio.
-                              </small>
+                              <input pInputText type="number" (ngModelChange)="calcularTotal()" (blur)="calcularTotal()" [(ngModel)]="metraje_frente_n" class="p-inputtext w-full" />
                             </div>
                             <div class="flex flex-col gap-2">
                               <label>Largo (m):</label>
-                              <input pInputText type="number" formControlName="metrajeLargo" class="p-inputtext w-full"  />
-                              <small *ngIf="formulario.get('metrajeLargo')?.invalid && formulario.get('metrajeLargo')?.touched">
-                                ⚠️ El metrajeLargo es obligatorio.
-                              </small>
+                              <input pInputText type="number" (ngModelChange)="calcularTotal()" (blur)="calcularTotal()" [(ngModel)]="metraje_largo_n" class="p-inputtext w-full"  />
                             </div>
                             <div class="flex flex-col gap-2">
                               <label>Total (m 2):</label>
-                              <input pInputText  formControlName="metrajeTotal" class="p-inputtext w-full" [disabled]="true"/>
-                              <small *ngIf="formulario.get('metrajeTotal')?.invalid && formulario.get('metrajeTotal')?.touched">
-                                ⚠️ El metrajeTotal es obligatorio.
-                              </small>
+                              <input pInputText  [(ngModel)]="metraje_total_n" class="p-inputtext w-full" [disabled]="true"/>
                             </div>
                           </div>
                         </p-fieldset>
@@ -95,34 +58,34 @@
             <ng-template #content let-activateCallback="activateCallback">
                 <div class="flex flex-col h-48">
                   <div>
-                    <p-checkbox value="anuncio" formControlName="tieneAnuncio" inputId="anu" [binary]="true" (onChange)="cambiarEstadoAnuncio($event)"/>
+                    <p-checkbox value="anuncio" [(ngModel)]="tiene_publicidad_n" inputId="anu" [binary]="true" (onChange)="cambiarEstadoAnuncio($event)"/>
                     <label for="ny" class="ml-2">¿El negocio tiene anuncios?</label>
                   </div>
                   <p-fieldset legend="Metraje de anuncio" [ngClass]="{'fieldset-disabled': !chkAnuncios}">
                     <div class="grid grid-cols-1 gap-4" >
                       <div class="flex flex-col gap-2">
                           <label>Tipo de anuncio:</label>
-                          <input pInputText  formControlName="tipoAnuncio" class="p-inputtext w-full" (input)="convertirMayusculas('tipo_anuncio')"/>
+                          <input pInputText  [(ngModel)]="tipo_anuncio_n" class="p-inputtext w-full" (input)="tipo_anuncio_n = tipo_anuncio_n?.toUpperCase()"/>
                       </div>
                     </div>
                     <div class="grid grid-cols-3 gap-4">
                         <div class="flex flex-col gap-2">
                           <label>Frente (m):</label>
-                          <input pInputText type="number" formControlName="medidaFrenteAnuncio" class="p-inputtext w-full" />
+                          <input pInputText type="number" (ngModelChange)="calcularTotalPublicidad()" (blur)="calcularTotalPublicidad()" [(ngModel)]="medida_frente_anuncio_n" class="p-inputtext w-full" />
                         </div>
                         <div class="flex flex-col gap-2">
                           <label>Largo (m):</label>
-                          <input pInputText type="number" formControlName="medidaLargoAnuncio" class="p-inputtext w-full" />
+                          <input pInputText type="number" (ngModelChange)="calcularTotalPublicidad()" (blur)="calcularTotalPublicidad()" [(ngModel)]="medida_largo_anuncio_n" class="p-inputtext w-full" />
                         </div>
                         <div class="flex flex-col gap-2">
                           <label>Total (m2):</label>
-                          <input pInputText type="number" formControlName="metrajeAnuncioTotal" class="p-inputtext w-full" />
+                          <input pInputText type="number" [(ngModel)]="metraje_anuncio_total_n" class="p-inputtext w-full" />
                         </div>
                     </div>
                   </p-fieldset>
 
                   <div>
-                    <p-checkbox value="bebidas" formControlName="vendeAlcohol" inputId="beb" [binary]="true" (onChange)="cambiarEstadoBebidas($event)"/>
+                    <p-checkbox value="bebidas" [(ngModel)]="vende_alcohol_n" inputId="beb" [binary]="true" (onChange)="cambiarEstadoBebidas($event)"/>
                     <label for="ny" class="ml-2">¿El negocio vende bebidas alcoholicas?</label>
                   </div>
 
@@ -131,7 +94,7 @@
                       <div class="flex flex-col gap-2">
                           <label>Tipo de venta de alcohol:</label>
                           <!-- <input pInputText  class="p-inputtext w-full"  /> -->
-                           <p-select [options]="licenciasAlcohol" formControlName="tipoLicenciaAlcohol" optionValue="licencia" optionLabel="licencia" placeholder="Selecciona una opcion" appendTo="body" class="w-full md:w-56"  [style]="{ 'width': '100%' }" />
+                           <p-select [options]="licenciasAlcohol" [(ngModel)]="revisionSeleccionada" optionValue="licencia" optionLabel="licencia" placeholder="{{tipo_licencia_alcohol_n}}" appendTo="body" class="w-full md:w-56"  [style]="{ 'width': '100%' }" />
                       </div>
                     </div>
                   </p-fieldset>
@@ -150,19 +113,19 @@
                   <div>
                     <p-fieldset legend="Observacion 1">
                       <div class="grid grid-cols-1 gap-4">
-                        <textarea rows="5" cols="30" formControlName="observacion1" pTextarea [autoResize]="true" (input)="convertirMayusculas('observacion1')"></textarea>
+                        <textarea rows="5" cols="30" [(ngModel)]="observacion1_n" pTextarea [autoResize]="true" (input)="observacion1_n = observacion1_n?.toUpperCase() "></textarea>
                       </div>
                     </p-fieldset>
 
                     <p-fieldset legend="Observacion 2">
                       <div class="grid grid-cols-1 gap-4">
-                        <textarea rows="5" cols="30" formControlName="observacion2" pTextarea [autoResize]="true" (input)="convertirMayusculas('observacion2')"></textarea>
+                        <textarea rows="5" cols="30" [(ngModel)]="observacion2_n" pTextarea [autoResize]="true" (input)="observacion2_n = observacion2_n?.toUpperCase()"></textarea>
                       </div>
                     </p-fieldset>
                   </div>
                     <div class="flex pt-6 justify-between">
                         <p-button label="Back" icon="pi pi-arrow-left" severity="secondary" iconPos="right" (onClick)="activateCallback(2)" />
-                        <p-button label="Guardar" iconPos="left" type="submit" [disabled]="formulario.invalid" (onClick)="insertarRevisionDePc()"/>
+                        <p-button label="Actualizar" iconPos="left" type="submit" (onClick)="actualizarRevision()"/>
                     </div>
                 </div>
             </ng-template>
@@ -170,8 +133,8 @@
     </p-step-panels>
 </p-stepper>
 
-<div *ngIf="tieneRevision" class="h-screen flex justify-center items-center">
-  <p-message>EL NEGOCIO YA TIENE UNA REVISIÓN DE PROTECCION CIVIL </p-message>
+<div *ngIf="!tieneRevision" class="h-screen flex justify-center items-center">
+  <p-message>EL NEGOCIO NO TIENE UNA REVISIÓN DE PROTECCION CIVIL </p-message>
 </div>
 
 

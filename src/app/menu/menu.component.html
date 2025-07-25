@@ -3,6 +3,8 @@
     <p>{{description}}</p>
   </p-card>
 </div> -->
+<p-toast />
+<p-confirmDialog></p-confirmDialog>
 <div class="content-wrapper">
   <p-card class="welcome-container">
     <ng-template pTemplate="title">{{title}}</ng-template>
@@ -14,5 +16,43 @@
     <img src="/export.png" class="watermark" width="500px" height="300px" >
   </div>
 </div>
+<div style="display: flex;justify-content: center; text-align: center;">
+  <p-tag value="NOTIFICACIONES" />
+</div>
+<div class="max-w-screen-lg mx-auto overflow-x-auto" >
+    <p-table
+    [value]="notificaciones"
+    [tableStyle]="{ 'min-width': '50rem', 'max-width': '80vw' }"
+    [paginator]="true"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template #header>
+            <tr>
+                <th>Folio Notificacion</th>
+                <th>Info...</th>
+                <th>Fecha Notificación</th>
+                <th>Id negocio nuevo</th>
+                <th style="width: 5rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-notif>
+            <tr>
+                <td>{{ notif.id_notification }}</td>
+                <td>{{ notif.info }}</td>
+                <td>
+                  {{notif.fecha_notificacion}}
+                </td>
+                <td>{{ notif.folio_negocio_notif }}</td>
+
+                <td>
+                  <p-button icon="pi pi-check" pTooltip="Marcar como visto" (click)="marcarComoVistoNotif(notif.id_notification)" severity="secondary" rounded />
+                </td>
+                <!-- <td>{{ notif.quantity }}</td> -->
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
 
 <!-- <img class="watermark" src="../assets/export.png" alt="Marca de agua" /> -->

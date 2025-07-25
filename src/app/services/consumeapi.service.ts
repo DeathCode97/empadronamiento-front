@@ -18,7 +18,7 @@ export class ConsumeapiService {
 
 
   getService(endpoint: string): Observable<getMethod>{
-    return this.http.get<getMethod>("https://192.168.30.202:8443/api/" + endpoint)
+    return this.http.get<getMethod>("https://192.168.191.7:81/api/" + endpoint)
   }
 
   postService(endpoint: string, obj: any): Observable<postMethod>{
@@ -29,7 +29,7 @@ export class ConsumeapiService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<postMethod>("https://192.168.30.202:8443/api/"+endpoint, obj, {headers}).pipe(
+    return this.http.post<postMethod>("https://192.168.191.7:81/api/"+endpoint, obj, {headers}).pipe(
       catchError(this.handleError)
     );
   }
@@ -42,6 +42,8 @@ export class ConsumeapiService {
       // Error del lado del servidor
       console.error(`Código del error: ${error.status}, mensaje: ${error.message}`);
     }
+
+    console.log(error,  'xdxdxd');
 
     // Puedes retornar un mensaje personalizado al usuario
     return throwError(() => new Error('Ocurrió un error en la solicitud. Inténtalo de nuevo más tarde.'));
