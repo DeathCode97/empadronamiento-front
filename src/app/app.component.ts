@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet,Event, NavigationStart, NavigationEnd  } from '@angular/router';
 import { Menubar, MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
@@ -14,14 +14,18 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { WebSocketService } from './services/web-socket.service';
 import { notificacionText } from './interfaces/notificaciones/notificacion'
-
+import { LoadingService } from './services/loading.service'
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, MenubarModule, RouterModule, ImageModule, CommonModule, ButtonModule,ToastModule],
   providers: [MessageService],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  template: `
+    <app-loading></app-loading>
+    <router-outlet></router-outlet>
+  `
 })
 export class AppComponent {
   // title = 'empadronamiento-front';
@@ -37,8 +41,18 @@ export class AppComponent {
     private authService: AuthApiService,
     private requestService: ConsumeapiService,
     private wsService: WebSocketService,
-    private messageService: MessageService
-  ){}
+    private messageService: MessageService,
+    private loadingService: LoadingService
+  ){
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        this.loadingService.show();
+      } else if (event instanceof NavigationEnd) {
+        this.loadingService.hide();
+      }
+    });
+
+  }
 
 
 
@@ -50,7 +64,7 @@ export class AppComponent {
     // });
     this.nombreUser = localStorage.getItem('username');
     this.userLogged = localStorage.getItem('role');
-    console.log(this.userLogged);
+    // console.log(this.userLogged);
 
     this.consultarNotificacionesPorPerfil();
     // console.log(localStorage.getItem('userAuth'));
@@ -80,16 +94,16 @@ export class AppComponent {
   }
 
   consultarNotificacionesPorPerfil(){
-    console.log(this.userLogged);
+    // console.log(this.userLogged);
 
     const data = {
       usuario: this.userLogged === 'HACIENDA' ? 'HACIENDA' : 'PC'
     }
-    console.log(data);
+    // console.log(data);
 
     this.requestService.postService("consultarNotificacionesPorUsuario", data).subscribe({
       next: (response) => {
-        console.log(response)
+        // console.log(response)
         this.notificaciones = response.data;
         this.cargarRutas();
       }
