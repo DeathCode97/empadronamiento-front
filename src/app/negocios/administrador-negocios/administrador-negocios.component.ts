@@ -23,6 +23,7 @@ import { Message } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 import { MenuModule } from 'primeng/menu';
+import { LazyLoadEvent } from 'primeng/api';
 // import jwtDecode from '';
 
 import { Router } from '@angular/router';
@@ -82,7 +83,7 @@ export default class AdministradorNegociosComponent {
   usuarioAutenticado: boolean | undefined;
   userLogged: any = '';
   rol: any = '';
-
+  loading: boolean = false;
 
   constructor(
     private requestService: ConsumeapiService,
@@ -96,7 +97,7 @@ export default class AdministradorNegociosComponent {
 
     this.userLogged = localStorage.getItem('role');
     this.rol = localStorage.getItem('username');
-    if(this.userLogged === 'HACIENDA'){
+    if(this.userLogged === 'HACIENDA' || this.userLogged === 'INDUSTRIA Y COMERCIO'){
       this.usuarioAutenticado = true;
       this.opcionesNegocio = [
         {
@@ -163,21 +164,6 @@ export default class AdministradorNegociosComponent {
         ]
       }
 
-    }else if(this.userLogged === 'INDUSTRIA Y COMERCIO'){
-      this.usuarioAutenticado = false;
-       this.opcionesNegocio = [
-        {
-          label: "Ver detalles",
-          icon: "pi pi-fw pi-eye",
-          command: () => this.abrirModalVerDetalles(this.negocioSeleccionado)
-        },
-        {
-          label: "Generar QR",
-          icon: "pi pi-fw pi-qrcode",
-          command: () => this.obetenerImagenQr(this.negocioSeleccionado)
-
-        },
-      ]
     }
 
 
@@ -185,6 +171,12 @@ export default class AdministradorNegociosComponent {
     // this.validarRol();
   }
 
+  // loadData(event: LazyLoadEvent) {
+  //   this.loading = true;
+  //   const page = Math.floor(event.first! / event.rows!);
+  //   const size = event.rows;
+
+  // }
   autorizarRevision(negocio: any){
     console.log(negocio);
     // return ;

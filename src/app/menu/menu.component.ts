@@ -66,7 +66,7 @@ export default class MenuComponent {
   }
 
   marcarComoVistoNotif(folioNotif: number){
-    console.log(folioNotif);
+    // console.log(folioNotif);
 
     this.confirmationService.confirm({
         message: `¿Marcar como visto el folio ${folioNotif}?`,
@@ -102,15 +102,16 @@ export default class MenuComponent {
 
   consultarNotificacionesPorPerfil(){
     console.log(this.userLogged);
+    console.log(this.nombreUser);
 
     const data = {
       usuario: this.userLogged === 'HACIENDA' ? 'HACIENDA' : 'PC'
     }
-    console.log(data);
+    // console.log(data);
 
     this.requestService.postService("consultarNotificacionesPorUsuario", data).subscribe({
       next: (response) => {
-        console.log(response)
+        // console.log(response)
         this.notificaciones = response.data;
         // this.cargarRutas();
       }

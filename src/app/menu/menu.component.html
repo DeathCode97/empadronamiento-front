@@ -16,10 +16,10 @@
     <img src="/export.png" class="watermark" width="500px" height="300px" >
   </div>
 </div>
-<div style="display: flex;justify-content: center; text-align: center;">
+<div style="display: flex;justify-content: center; text-align: center;" *ngIf="nombreUser != 'comercio' && nombreUser != 'admincomercio'">
   <p-tag value="NOTIFICACIONES" />
 </div>
-<div class="max-w-screen-lg mx-auto overflow-x-auto" >
+<div class="max-w-screen-lg mx-auto overflow-x-auto" *ngIf="nombreUser != 'comercio' && nombreUser != 'admincomercio'">
     <p-table
     [value]="notificaciones"
     [tableStyle]="{ 'min-width': '50rem', 'max-width': '80vw' }"

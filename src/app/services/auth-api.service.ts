@@ -12,7 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AuthApiService {
 
-  private apiUrl = 'https://192.168.191.7:81/api/login'; // URL de API Laravel
+  private apiUrl = 'http://127.0.0.1:8000/api/login'; // URL de API Laravel
 
   constructor(private http: HttpClient, private router: Router) { }
 

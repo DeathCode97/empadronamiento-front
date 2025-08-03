@@ -18,7 +18,7 @@ export class ConsumeapiService {
 
 
   getService(endpoint: string): Observable<getMethod>{
-    return this.http.get<getMethod>("https://192.168.191.7:81/api/" + endpoint)
+    return this.http.get<getMethod>("http://127.0.0.1:8000/api/" + endpoint)
   }
 
   postService(endpoint: string, obj: any): Observable<postMethod>{
@@ -29,7 +29,7 @@ export class ConsumeapiService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<postMethod>("https://192.168.191.7:81/api/"+endpoint, obj, {headers}).pipe(
+    return this.http.post<postMethod>("http://127.0.0.1:8000/api/"+endpoint, obj, {headers}).pipe(
       catchError(this.handleError)
     );
   }

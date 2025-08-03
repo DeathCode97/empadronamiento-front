@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './auth.guard';
+// import { MenuComponent } from './menu/menu.component'
 // import { AdministradorPagosComponent } from './pagos/administrador-pagos/administrador-pagos.component'
 
 export const routes: Routes = [
@@ -9,7 +10,8 @@ export const routes: Routes = [
     },
     {
       path: "inicio",
-      loadComponent: () => import('./menu/menu.component'),
+      // loadComponent: () => import('./menu/menu.component'),
+      loadChildren: () => import('./modules/menu.module').then(m => m.MenuModule),
       canActivate: [authGuard]
     },
     {
