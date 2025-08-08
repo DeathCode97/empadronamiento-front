@@ -451,7 +451,7 @@ export default class AdministradorNegociosComponent {
           this.obtenerNegociosPropietarios()
         }else{
           this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
-        }``
+        }
       }
     })
   }

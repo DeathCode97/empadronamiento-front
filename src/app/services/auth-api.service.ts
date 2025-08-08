@@ -14,6 +14,7 @@ export class AuthApiService {
 
   private apiUrl = 'http://127.0.0.1:8000/api/login'; // URL de API Laravel
 
+  // PRODUCCION https://192.168.191.7:81
   constructor(private http: HttpClient, private router: Router) { }
 
   login(credentials: {username: string, password: string}): Observable<any>{

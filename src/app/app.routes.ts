@@ -61,6 +61,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: "negocioeventual",
+        loadComponent: () => import('./negocios/negocios-eventuales/negocios-eventuales.component'),
+        canActivate: [authGuard]
+    },
+    {
       path: "",
       redirectTo: 'inicio',
       pathMatch: 'full',

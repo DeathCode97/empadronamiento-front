@@ -172,6 +172,7 @@ export class AppComponent {
               label: "Inicio",
               routerLink: "/inicio",
               icon: 'pi pi-home',
+              badge: this.notificaciones.length.toString()
             },
             {
               label: "Negocios",
@@ -182,12 +183,6 @@ export class AppComponent {
                 }
               ]
             },
-            {
-              label: "",
-              badge: this.notificaciones.length.toString(),
-              icon: "pi pi-bell",
-              items: this.notificaciones.map(n => ({ label: n.label }))
-            }
           ];
           break;
         case "INSPECCION":
@@ -200,6 +195,10 @@ export class AppComponent {
             {
               label: "Escaner QR",
               routerLink: "/negocioqr",
+            },
+            {
+              label: "Negocios Eventuales",
+              routerLink: "/negocioeventual"
             }
           ];
           break;
@@ -209,6 +208,7 @@ export class AppComponent {
               label: "Inicio",
               routerLink: "/inicio",
               icon: 'pi pi-home',
+              badge: this.notificaciones.length.toString()
             },
             {
               label: "Negocios",
@@ -220,11 +220,14 @@ export class AppComponent {
               ]
             },
             {
-              label: "",
-              badge: this.notificaciones.length.toString(),
-              icon: "pi pi-bell",
-              items: this.notificaciones.map(n => ({ label: n.label }))
-            }
+              label: "Propietarios",
+              items: [
+                {
+                  label: "Administrador",
+                  routerLink: "/propietarios/administrador"
+                }
+              ]
+            },
           ];
           break
       }

@@ -1,1 +1,51 @@
-<p>modal-agregar-eventual works!</p>
+<div class="flex flex-col h-48">
+  <div>
+
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <label>Nombre del negocio:</label>
+        <input type="text" pInputText [(ngModel)]="nombre_negocio" class="p-inputtext w-full" (input)="nombre_negocio = nombre_negocio?.toUpperCase()"/>
+        <!-- <input pInputText formControlName="nombreNegocio" [placeholder]="nombreNegocio" (input)="convertirMayusculas('nombreNegocio')" class="p-inputtext w-full" /> -->
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label>Nombre del responsable:</label>
+        <input type="text" pInputText [(ngModel)]="nombre_propietario" class="p-inputtext w-full" (input)="nombre_propietario = nombre_propietario?.toUpperCase()"/>
+        <!-- <input pInputText formControlName="nombrePropietario" [placeholder]="nombrePropietario" (input)="convertirMayusculas('nombrePropietario')" class="p-inputtext w-full" /> -->
+      </div>
+      <div class="flex flex-col gap-2">
+        <label>Numero del responsable:</label>
+        <input type="text" pInputText [(ngModel)]="numero_propietario" class="p-inputtext w-full" (input)="numero_propietario = numero_propietario?.toUpperCase()"/>
+        <!-- <input pInputText formControlName="numeroPropietario" [placeholder]="numeroPropietario" class="p-inputtext w-full" /> -->
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <label>Direccion o ubicación:</label>
+        <input type="text" pInputText [(ngModel)]="ubicacion_relativa" class="p-inputtext w-full" (input)="ubicacion_relativa = ubicacion_relativa?.toUpperCase()"/>
+        <!-- <input pInputText formControlName="nombreNegocio" [placeholder]="nombreNegocio" (input)="convertirMayusculas('nombreNegocio')" class="p-inputtext w-full" /> -->
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label>Cuota a cobrar:</label>
+        <input type="text" pInputText [(ngModel)]="cuota_cobrada" class="p-inputtext w-full" />
+        <!-- <input pInputText formControlName="nombrePropietario" [placeholder]="nombrePropietario" (input)="convertirMayusculas('nombrePropietario')" class="p-inputtext w-full" /> -->
+      </div>
+      <div class="flex flex-col gap-2">
+        <label>Actividad economica:</label>
+        <input type="text" pInputText [(ngModel)]="actividad_economica_negocio" class="p-inputtext w-full" (input)="actividad_economica_negocio = actividad_economica_negocio?.toUpperCase()"/>
+        <!-- <input pInputText formControlName="numeroPropietario" [placeholder]="numeroPropietario" class="p-inputtext w-full" /> -->
+      </div>
+    </div>
+
+  </div>
+  <div class="flex pt-6 justify-center" >
+        <p-button label="Guardar"  (onClick)="insertarNegocioEventual()"/>
+        <!-- <p-button label="Next" [ngStyle]="{'display': !esAmbulante ? 'block' : 'none'}" severity="info" icon="pi pi-arrow-right" iconPos="right"  /> -->
+  </div>
+</div>

@@ -1,0 +1,63 @@
+
+<div class="card">
+    <p-confirmDialog></p-confirmDialog>
+    <p-table #dt2
+    [value]="dataEventuales"
+    [globalFilterFields]="['nombre_negocio', 'actividad_economica_negocio', 'nombre_propietario']"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="true"
+    [rows]="5"
+    stripedRows
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [(contextMenuSelection)]="eventualSeleccionado">
+    <ng-template #caption>
+      <div class="d-flex justify-content-center">
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+              <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input pInputText type="text" (input)="onGlobalFilter(dt2, $event)" placeholder="Buscar...">
+          &nbsp;
+          <!-- <p-button  icon="pi pi-qrcode" (onClick)="escanearNegocio()" severity="info" pTooltip="Escanear negocio"/> -->
+        </p-iconfield>
+      </div>
+    </ng-template>
+        <ng-template #header>
+            <tr>
+                <th>Folio negocio eventual</th>
+                <th>Nombre negocio</th>
+                <th>Nombre encargado</th>
+                <th>Numero telefónico</th>
+                <th>Ubicación o dirección</th>
+                <th> $ Se le cobró</th>
+                <th>Actividad económica</th>
+                <th>Fecha de cobro</th>
+                <th>Opciones</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-eventual>
+            <tr>
+                <td>{{eventual.folio_negocio}}</td>
+                <td>{{eventual.nombre_negocio}}</td>
+                <td>{{eventual.nombre_propietario}}</td>
+                <td>{{eventual.numero_propietario}}</td>
+                <td>{{eventual.ubicacion_relativa}}</td>
+                <td>{{eventual.cuota_cobrada}}</td>
+                <td>{{eventual.actividad_economica_negocio}}</td>
+                <td>{{eventual.fecha_de_cobro}}</td>
+                <td >
+                  <p-popover #popover>
+                    <ng-template pTemplate="content">
+                      <button class="p-button p-button-danger w-full" (click)="eliminarNegocioEventual(eventual.folio_negocio); popover.hide()">
+                        <i class="pi pi-trash mr-2"></i> Eliminar
+                      </button>
+                    </ng-template>
+                  </p-popover>
+
+                  <!-- <p-menu #menu [model]="itemsMenu" [popup]="true" appendTo="body" /> -->
+                  <p-button (click)="popover.toggle($event)" icon="pi pi-ellipsis-v"/>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

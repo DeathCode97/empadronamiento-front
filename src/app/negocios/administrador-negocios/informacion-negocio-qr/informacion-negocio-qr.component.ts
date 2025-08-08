@@ -17,6 +17,8 @@ import { ModalBusquedaQrComponent } from '../modal-busqueda-qr/modal-busqueda-qr
 import { InputNumber } from 'primeng/inputnumber';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { ModalAgregarEventualComponent } from '../modal-agregar-eventual/modal-agregar-eventual.component'
 // import { ButtonLabel, ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-informacion-negocio-qr',
@@ -31,7 +33,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     FormsModule,
     CommonModule,
     InputNumber,
-    ConfirmDialog
+    ConfirmDialog,
+    DialogModule
   ],
   providers: [
     DialogService,
@@ -46,6 +49,7 @@ export default class InformacionNegocioQrComponent {
 
   searchTerm: number | undefined;
   modalBuscarQr: DynamicDialogRef | undefined;
+  modalAgregarEventual: DynamicDialogRef | undefined;
   informacionNegocio: NegocioQR[] | undefined;
   esAmbulante: boolean | undefined;
   mostrarContenido: boolean = false;
@@ -89,6 +93,36 @@ export default class InformacionNegocioQrComponent {
     })
 
     this.modalBuscarQr.onClose.subscribe((response) => {
+      // console.log(response);
+
+      if(response === undefined){
+        // console.log("xdxd");
+
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Operacion Cancelada', life: 3000 });
+      }else{
+        // console.log(response);
+        if(response.status === "success"){
+          this.messageService.add({ severity: 'success', summary: 'Exito', detail: 'Insertado con exito' });
+          // this.obtenerNegociosPropietarios()
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: response.message });
+        }
+      }
+    })
+  }
+
+  agregarEventual(){
+    this.modalAgregarEventual = this.dialogService.open(ModalAgregarEventualComponent, {
+      header: `Agregar eventual`,
+      width: '50%',
+      height: '650px',
+      closable: true,
+      modal: true,
+      contentStyle: {"max-height": "700px", "overflow": "auto", },
+      baseZIndex: 10000
+    })
+
+    this.modalAgregarEventual.onClose.subscribe((response) => {
       console.log(response);
 
       this.obtenerInfoNegocioQr(response);
